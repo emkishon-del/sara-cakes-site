@@ -1,0 +1,843 @@
+{
+ "settings": {
+  "phone": "052-447-7261",
+  "waNumber": "972524477261",
+  "instagram": "https://www.instagram.com/sara_cakes_and_sweets/",
+  "facebook": "",
+  "hero": [
+   1,
+   33,
+   2
+  ],
+  "heroLinks": [
+   {
+    "cat": "desserts",
+    "title": "קינוחים",
+    "image": "pavlova-berries"
+   },
+   {
+    "cat": "sweet-tables",
+    "title": "שולחנות מתוקים",
+    "image": "sweet-bar-pink"
+   },
+   {
+    "cat": "catering",
+    "title": "בופה ומגשי אירוח",
+    "image": "buffet"
+   }
+  ]
+ },
+ "categories": [
+  {
+   "slug": "cakes",
+   "name": "עוגות מעוצבות",
+   "blurb": "ימי הולדת, בר ובת מצווה, חתונות",
+   "cover": "pink-bow-tiers",
+   "sort": 0,
+   "visible": true,
+   "subs": [
+    {
+     "slug": "birthday",
+     "name": "יום הולדת",
+     "sort": 0,
+     "visible": true
+    },
+    {
+     "slug": "bar-bat-mitzvah",
+     "name": "בר ובת מצווה",
+     "sort": 1,
+     "visible": true
+    },
+    {
+     "slug": "halake",
+     "name": "חאלקה",
+     "sort": 2,
+     "visible": true
+    },
+    {
+     "slug": "wedding",
+     "name": "חתונה ואירוסין",
+     "sort": 3,
+     "visible": true
+    },
+    {
+     "slug": "brit",
+     "name": "ברית ולידה",
+     "sort": 4,
+     "visible": true
+    },
+    {
+     "slug": "holidays",
+     "name": "חגים",
+     "sort": 5,
+     "visible": true
+    },
+    {
+     "slug": "numbers",
+     "name": "עוגות מספרים",
+     "sort": 6,
+     "visible": true
+    }
+   ]
+  },
+  {
+   "slug": "sweet-tables",
+   "name": "שולחנות מתוקים",
+   "blurb": "ברי קינוחים לאירועים",
+   "cover": "sweet-bar-pink",
+   "sort": 1,
+   "visible": true,
+   "subs": []
+  },
+  {
+   "slug": "desserts",
+   "name": "קינוחים",
+   "blurb": "טארטים, כוסות, פבלובות",
+   "cover": "tarts-meringue",
+   "sort": 2,
+   "visible": true,
+   "subs": [
+    {
+     "slug": "cups",
+     "name": "קינוחי כוסות",
+     "sort": 0,
+     "visible": true
+    },
+    {
+     "slug": "tarts",
+     "name": "טארטים",
+     "sort": 1,
+     "visible": true
+    },
+    {
+     "slug": "meringue",
+     "name": "פבלובות ומרנג",
+     "sort": 2,
+     "visible": true
+    },
+    {
+     "slug": "choux",
+     "name": "פחזניות",
+     "sort": 3,
+     "visible": true
+    },
+    {
+     "slug": "cookies",
+     "name": "עוגיות וממתקים",
+     "sort": 4,
+     "visible": true
+    },
+    {
+     "slug": "special",
+     "name": "מיוחדים",
+     "sort": 5,
+     "visible": true
+    }
+   ]
+  },
+  {
+   "slug": "catering",
+   "name": "מגשי אירוח ובופה",
+   "blurb": "בופה מלא לאירועים",
+   "cover": "buffet",
+   "sort": 3,
+   "visible": true,
+   "subs": []
+  },
+  {
+   "slug": "gifts",
+   "name": "מארזים ומתנות",
+   "blurb": "מארזים מעוצבים לכל אירוע",
+   "cover": null,
+   "sort": 4,
+   "visible": true,
+   "subs": []
+  },
+  {
+   "slug": "workshops",
+   "name": "סדנאות",
+   "blurb": "סדנאות עיצוב ואפייה",
+   "cover": null,
+   "sort": 5,
+   "visible": true,
+   "subs": []
+  }
+ ],
+ "items": [
+  {
+   "id": 1,
+   "cat": "cakes",
+   "sub": "wedding",
+   "title": "עוגת חתונה בשלוש קומות עם ורדים",
+   "caption": "",
+   "alt": "עוגת חתונה בשלוש קומות עם ורדים",
+   "image": "cake-wedding-roses",
+   "visible": true,
+   "sort": 0
+  },
+  {
+   "id": 2,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגת יום הולדת עם כתר זהב",
+   "caption": "",
+   "alt": "עוגת יום הולדת עם כתר זהב",
+   "image": "cake-crown",
+   "visible": true,
+   "sort": 1
+  },
+  {
+   "id": 3,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגת לב וינטג׳ ורודה",
+   "caption": "",
+   "alt": "עוגת לב וינטג׳ ורודה",
+   "image": "cake-heart-sweet16",
+   "visible": true,
+   "sort": 2
+  },
+  {
+   "id": 4,
+   "cat": "sweet-tables",
+   "sub": null,
+   "title": "שולחן מתוק בזהב ונחושת",
+   "caption": "",
+   "alt": "שולחן מתוק בזהב ונחושת",
+   "image": "sweet-table-gold",
+   "visible": true,
+   "sort": 3
+  },
+  {
+   "id": 5,
+   "cat": "sweet-tables",
+   "sub": null,
+   "title": "בר מתוק בוורוד ולבן",
+   "caption": "",
+   "alt": "בר מתוק בוורוד ולבן",
+   "image": "sweet-bar-pink",
+   "visible": true,
+   "sort": 4
+  },
+  {
+   "id": 6,
+   "cat": "desserts",
+   "sub": "cups",
+   "title": "כוסות לוטוס וקרמל",
+   "caption": "",
+   "alt": "כוסות לוטוס וקרמל",
+   "image": "cups-lotus",
+   "visible": true,
+   "sort": 5
+  },
+  {
+   "id": 7,
+   "cat": "desserts",
+   "sub": "cups",
+   "title": "כוסות לימון ומרנג שרוף",
+   "caption": "",
+   "alt": "כוסות לימון ומרנג שרוף",
+   "image": "cups-lemon-meringue",
+   "visible": true,
+   "sort": 6
+  },
+  {
+   "id": 8,
+   "cat": "desserts",
+   "sub": "cups",
+   "title": "כוס לימון מרנג",
+   "caption": "",
+   "alt": "כוס לימון מרנג",
+   "image": "cup-lemon-meringue-hand",
+   "visible": true,
+   "sort": 7
+  },
+  {
+   "id": 9,
+   "cat": "desserts",
+   "sub": "cups",
+   "title": "כוסות גבינה ודובדבנים",
+   "caption": "",
+   "alt": "כוסות גבינה ודובדבנים",
+   "image": "cups-cherry-cheese",
+   "visible": true,
+   "sort": 8
+  },
+  {
+   "id": 10,
+   "cat": "desserts",
+   "sub": "meringue",
+   "title": "פבלובות עם רוטב פירות יער",
+   "caption": "",
+   "alt": "פבלובות עם רוטב פירות יער",
+   "image": "pavlova-berries",
+   "visible": true,
+   "sort": 9
+  },
+  {
+   "id": 11,
+   "cat": "desserts",
+   "sub": "tarts",
+   "title": "מיני טארטים עם מרנג גבוה",
+   "caption": "",
+   "alt": "מיני טארטים עם מרנג גבוה",
+   "image": "tarts-meringue-tall",
+   "visible": true,
+   "sort": 10
+  },
+  {
+   "id": 12,
+   "cat": "desserts",
+   "sub": "tarts",
+   "title": "מיני טארטים מרנג מסולסל",
+   "caption": "",
+   "alt": "מיני טארטים מרנג מסולסל",
+   "image": "tarts-meringue",
+   "visible": true,
+   "sort": 11
+  },
+  {
+   "id": 13,
+   "cat": "desserts",
+   "sub": "tarts",
+   "title": "מיני טארט פקאן",
+   "caption": "",
+   "alt": "מיני טארט פקאן",
+   "image": "tarts-pecan",
+   "visible": true,
+   "sort": 12
+  },
+  {
+   "id": 14,
+   "cat": "desserts",
+   "sub": "tarts",
+   "title": "טארט שקדים מקורמלים",
+   "caption": "",
+   "alt": "טארט שקדים מקורמלים",
+   "image": "tart-almond",
+   "visible": true,
+   "sort": 13
+  },
+  {
+   "id": 15,
+   "cat": "desserts",
+   "sub": "tarts",
+   "title": "טארט קרם עם זר קצפת",
+   "caption": "",
+   "alt": "טארט קרם עם זר קצפת",
+   "image": "tart-cream",
+   "visible": true,
+   "sort": 14
+  },
+  {
+   "id": 16,
+   "cat": "desserts",
+   "sub": "choux",
+   "title": "פחזניות קראקלן",
+   "caption": "",
+   "alt": "פחזניות קראקלן",
+   "image": "choux-craquelin",
+   "visible": true,
+   "sort": 15
+  },
+  {
+   "id": 17,
+   "cat": "desserts",
+   "sub": "special",
+   "title": "קינוח דובאי",
+   "caption": "",
+   "alt": "קינוח דובאי",
+   "image": "dubai-dessert",
+   "visible": true,
+   "sort": 16
+  },
+  {
+   "id": 18,
+   "cat": "desserts",
+   "sub": "cookies",
+   "title": "עוגיות שוקולד צ׳יפס",
+   "caption": "",
+   "alt": "עוגיות שוקולד צ׳יפס",
+   "image": "cookie-bars",
+   "visible": true,
+   "sort": 17
+  },
+  {
+   "id": 19,
+   "cat": "catering",
+   "sub": null,
+   "title": "מיני קישים ברוקולי ובטטה",
+   "caption": "",
+   "alt": "מיני קישים ברוקולי ובטטה",
+   "image": "quiches",
+   "visible": true,
+   "sort": 18
+  },
+  {
+   "id": 20,
+   "cat": "catering",
+   "sub": null,
+   "title": "בופה אירוח מלא",
+   "caption": "",
+   "alt": "בופה אירוח מלא",
+   "image": "buffet",
+   "visible": true,
+   "sort": 19
+  },
+  {
+   "id": 21,
+   "cat": "cakes",
+   "sub": "bar-bat-mitzvah",
+   "title": "עוגת בת מצווה ורודה עם פרחים",
+   "caption": "",
+   "alt": "עוגת בת מצווה ורודה עם פרחים",
+   "image": "mitzvah-pink-12",
+   "visible": true,
+   "sort": 20
+  },
+  {
+   "id": 22,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגת משאיות וטרקטורים",
+   "caption": "",
+   "alt": "עוגת משאיות וטרקטורים",
+   "image": "trucks-3",
+   "visible": true,
+   "sort": 21
+  },
+  {
+   "id": 23,
+   "cat": "cakes",
+   "sub": "bar-bat-mitzvah",
+   "title": "עוגת בת מצווה בשתי קומות",
+   "caption": "",
+   "alt": "עוגת בת מצווה בשתי קומות",
+   "image": "mitzvah-two-tier-pink",
+   "visible": true,
+   "sort": 22
+  },
+  {
+   "id": 24,
+   "cat": "cakes",
+   "sub": "bar-bat-mitzvah",
+   "title": "עוגת בר מצווה עם תפילין ומגילה",
+   "caption": "",
+   "alt": "עוגת בר מצווה עם תפילין ומגילה",
+   "image": "barmitzvah-tefillin",
+   "visible": true,
+   "sort": 23
+  },
+  {
+   "id": 25,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגת וינטג׳ עם ורדים",
+   "caption": "",
+   "alt": "עוגת וינטג׳ עם ורדים",
+   "image": "vintage-roses-birthday",
+   "visible": true,
+   "sort": 24
+  },
+  {
+   "id": 26,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגה לבנה עם סרטים ורודים",
+   "caption": "",
+   "alt": "עוגה לבנה עם סרטים ורודים",
+   "image": "white-pink-bows",
+   "visible": true,
+   "sort": 25
+  },
+  {
+   "id": 27,
+   "cat": "cakes",
+   "sub": "bar-bat-mitzvah",
+   "title": "עוגת בר מצווה עם ורדים כחולים",
+   "caption": "",
+   "alt": "עוגת בר מצווה עם ורדים כחולים",
+   "image": "barmitzvah-blue-roses",
+   "visible": true,
+   "sort": 26
+  },
+  {
+   "id": 28,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגת חדי קרן",
+   "caption": "",
+   "alt": "עוגת חדי קרן",
+   "image": "unicorns-5",
+   "visible": true,
+   "sort": 27
+  },
+  {
+   "id": 29,
+   "cat": "cakes",
+   "sub": "halake",
+   "title": "עוגת ספר לחאלקה",
+   "caption": "",
+   "alt": "עוגת ספר לחאלקה",
+   "image": "halake-book",
+   "visible": true,
+   "sort": 28
+  },
+  {
+   "id": 30,
+   "cat": "cakes",
+   "sub": "halake",
+   "title": "עוגת חאלקה בתכלת",
+   "caption": "",
+   "alt": "עוגת חאלקה בתכלת",
+   "image": "halake-blue",
+   "visible": true,
+   "sort": 29
+  },
+  {
+   "id": 31,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגת קומות בצהוב וזהב",
+   "caption": "",
+   "alt": "עוגת קומות בצהוב וזהב",
+   "image": "yellow-gold-two-tier",
+   "visible": true,
+   "sort": 30
+  },
+  {
+   "id": 32,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגת פרפר ורודה",
+   "caption": "",
+   "alt": "עוגת פרפר ורודה",
+   "image": "butterfly-2",
+   "visible": true,
+   "sort": 31
+  },
+  {
+   "id": 33,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגת קומות ורודה עם פפיון",
+   "caption": "",
+   "alt": "עוגת קומות ורודה עם פפיון",
+   "image": "pink-bow-tiers",
+   "visible": true,
+   "sort": 32
+  },
+  {
+   "id": 34,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגת יום הולדת ראשון",
+   "caption": "",
+   "alt": "עוגת יום הולדת ראשון",
+   "image": "first-birthday-vintage",
+   "visible": true,
+   "sort": 33
+  },
+  {
+   "id": 35,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגת אתר בנייה",
+   "caption": "",
+   "alt": "עוגת אתר בנייה",
+   "image": "construction-3",
+   "visible": true,
+   "sort": 34
+  },
+  {
+   "id": 36,
+   "cat": "desserts",
+   "sub": "special",
+   "title": "עוגת גבינה מוארכת עם קצפת",
+   "caption": "",
+   "alt": "עוגת גבינה מוארכת עם קצפת",
+   "image": "cheesecake-long",
+   "visible": true,
+   "sort": 35
+  },
+  {
+   "id": 37,
+   "cat": "cakes",
+   "sub": "wedding",
+   "title": "עוגת חתונה לבנה עם מונוגרמה",
+   "caption": "",
+   "alt": "עוגת חתונה לבנה עם מונוגרמה",
+   "image": "wedding-white-monogram",
+   "visible": true,
+   "sort": 36
+  },
+  {
+   "id": 38,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגת לב וינטג׳ באדום",
+   "caption": "",
+   "alt": "עוגת לב וינטג׳ באדום",
+   "image": "heart-vintage-red",
+   "visible": true,
+   "sort": 37
+  },
+  {
+   "id": 39,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגת ספורט בשתי קומות",
+   "caption": "",
+   "alt": "עוגת ספורט בשתי קומות",
+   "image": "sports-two-tier",
+   "visible": true,
+   "sort": 38
+  },
+  {
+   "id": 40,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגת סוכריות וטפטוף שוקולד",
+   "caption": "",
+   "alt": "עוגת סוכריות וטפטוף שוקולד",
+   "image": "candy-drip-7",
+   "visible": true,
+   "sort": 39
+  },
+  {
+   "id": 41,
+   "cat": "cakes",
+   "sub": "wedding",
+   "title": "עוגת אירוסין עם פפיון צהוב",
+   "caption": "",
+   "alt": "עוגת אירוסין עם פפיון צהוב",
+   "image": "engagement-yellow-bow",
+   "visible": true,
+   "sort": 40
+  },
+  {
+   "id": 42,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגת לב עם ורדים לאמא ואבא",
+   "caption": "",
+   "alt": "עוגת לב עם ורדים לאמא ואבא",
+   "image": "heart-roses-parents",
+   "visible": true,
+   "sort": 41
+  },
+  {
+   "id": 43,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגת ארטיק",
+   "caption": "",
+   "alt": "עוגת ארטיק",
+   "image": "popsicle-cake",
+   "visible": true,
+   "sort": 42
+  },
+  {
+   "id": 44,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגת לק",
+   "caption": "",
+   "alt": "עוגת לק",
+   "image": "nail-polish-cake",
+   "visible": true,
+   "sort": 43
+  },
+  {
+   "id": 45,
+   "cat": "cakes",
+   "sub": "halake",
+   "title": "עוגת חאלקה בזהב",
+   "caption": "",
+   "alt": "עוגת חאלקה בזהב",
+   "image": "halake-gold",
+   "visible": true,
+   "sort": 44
+  },
+  {
+   "id": 46,
+   "cat": "cakes",
+   "sub": "halake",
+   "title": "עוגת חאלקה עם אותיות",
+   "caption": "",
+   "alt": "עוגת חאלקה עם אותיות",
+   "image": "halake-letters-black",
+   "visible": true,
+   "sort": 45
+  },
+  {
+   "id": 47,
+   "cat": "cakes",
+   "sub": "halake",
+   "title": "עוגת חאלקה עם אותיות בתכלת",
+   "caption": "",
+   "alt": "עוגת חאלקה עם אותיות בתכלת",
+   "image": "halake-letters-blue",
+   "visible": true,
+   "sort": 46
+  },
+  {
+   "id": 48,
+   "cat": "cakes",
+   "sub": "halake",
+   "title": "עוגת חאלקה עם כיפה ואותיות",
+   "caption": "",
+   "alt": "עוגת חאלקה עם כיפה ואותיות",
+   "image": "halake-letters-kippah",
+   "visible": true,
+   "sort": 47
+  },
+  {
+   "id": 49,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגה עירומה עם פרחים",
+   "caption": "",
+   "alt": "עוגה עירומה עם פרחים",
+   "image": "naked-flowers",
+   "visible": true,
+   "sort": 48
+  },
+  {
+   "id": 50,
+   "cat": "cakes",
+   "sub": "birthday",
+   "title": "עוגת פרפרים",
+   "caption": "",
+   "alt": "עוגת פרפרים",
+   "image": "butterflies-27",
+   "visible": true,
+   "sort": 49
+  }
+ ],
+ "reviews": [
+  {
+   "id": 1,
+   "text": "תודה רבה על הקינוחים המדהימים והעוגה המושקעת שהכנת לכבוד בת המצווה. תודה על ההשקעה, על תשומת הלב לכל פרט, ועל כך שאפילו קנית מפה במיוחד לכבוד האירוע. המחווה המרגשת והנתינה מכל הלב הוסיפו יופי, חום ומתיקות לחגיגה.",
+   "tag": "בת מצווה",
+   "visible": true,
+   "sort": 0
+  },
+  {
+   "id": 2,
+   "text": "תודה על העוגה הנפלאה הזו, היא הייתה מושלמת. 100% מושלמת, היא הייתה מצוינת, היא הייתה פשוט יפהפייה. מעולם לא ראיתי עוגה כל כך יפה בחיי.",
+   "tag": "עוגה מעוצבת",
+   "visible": true,
+   "sort": 1
+  },
+  {
+   "id": 3,
+   "text": "כמעט כל הקינוחים נגמרו לפני ראש השנה. מארז מושלם, מפנק וטעים.",
+   "tag": "מארז לראש השנה",
+   "visible": true,
+   "sort": 2
+  },
+  {
+   "id": 4,
+   "text": "הפינוקים ששלחת לי יצאו מושלמים, טעימים ברמות! התענגנו על כל ביס, ונשאר לנו גם לשבת. אלופה שאת!",
+   "tag": "פינוקים לשבת",
+   "visible": true,
+   "sort": 3
+  },
+  {
+   "id": 5,
+   "text": "העוגה שהכנת לנו הייתה מהממת, ובעיקר טעימה בטירוף! חוסלה לגמרי.",
+   "tag": "עוגה מעוצבת",
+   "visible": true,
+   "sort": 4
+  },
+  {
+   "id": 6,
+   "text": "תודה רבה רבה על העוגה! היא הייתה מושלמת. לא הפסקתי לקבל עליה מיליון מחמאות. פשוט טעימה ברמות, והכול היה מהמם, יפה ומדויק.",
+   "tag": "עוגה מעוצבת",
+   "visible": true,
+   "sort": 5
+  }
+ ],
+ "prices": {
+  "note": "רוצים משהו שלא מופיע כאן? בשולחנות מתוקים, קינוחים, בופה וסדנאות המחיר משתנה לפי האירוע, אז כתבו לי בוואטסאפ ונתאים הצעה.",
+  "sections": [
+   {
+    "id": 1,
+    "title": "עוגות מעוצבות",
+    "sort": 0,
+    "rows": [
+     {
+      "name": "עוגה עגולה – קומה אחת",
+      "price": "450",
+      "unit": "",
+      "sort": 0
+     },
+     {
+      "name": "עוגה קומה וחצי",
+      "price": "650",
+      "unit": "",
+      "sort": 1
+     },
+     {
+      "name": "עוגה 2 קומות",
+      "price": "850",
+      "unit": "",
+      "sort": 2
+     }
+    ]
+   },
+   {
+    "id": 2,
+    "title": "עוגת גן",
+    "sort": 1,
+    "rows": [
+     {
+      "name": "עוגת גן",
+      "price": "270",
+      "unit": "",
+      "sort": 0
+     }
+    ]
+   },
+   {
+    "id": 3,
+    "title": "עוגות מספרים",
+    "sort": 2,
+    "rows": [
+     {
+      "name": "עוגת מספרים",
+      "price": "400",
+      "unit": "",
+      "sort": 0
+     },
+     {
+      "name": "עוגת מספר אחד – שוקולד ופירות",
+      "price": "430",
+      "unit": "",
+      "sort": 1
+     }
+    ]
+   },
+   {
+    "id": 4,
+    "title": "קאפקייקס",
+    "sort": 3,
+    "rows": [
+     {
+      "name": "מארז 12 קאפקייקס",
+      "price": "230",
+      "unit": "",
+      "sort": 0
+     },
+     {
+      "name": "בהזמנה של מעל 20 יחידות",
+      "price": "15",
+      "unit": "ליחידה",
+      "sort": 1
+     }
+    ]
+   }
+  ]
+ }
+}

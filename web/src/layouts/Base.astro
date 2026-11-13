@@ -1,0 +1,134 @@
+---
+/* Shared page shell: head (SEO, share preview), header, footer, floating WhatsApp button. */
+import '../styles/global.css';
+import { getData } from '../lib/data';
+import { waLink, WA_GENERAL } from '../lib/wa';
+
+interface Props {
+  title?: string;          // page part of the title, e.g. "קטלוג"
+  description?: string;
+  view: 'home' | 'catalog' | 'cake' | 'prices' | 'about' | 'contact' | 'accessibility' | 'privacy' | 'lost';
+  image?: string;          // absolute or site-relative share image
+  noindex?: boolean;
+  jsonLd?: object;
+}
+const { title, description, view, image, noindex = false, jsonLd } = Astro.props;
+const d = await getData();
+const S = d.settings;
+const BRAND = 'Sara Cakes & Sweets';
+const fullTitle = title ? `${title} · ${BRAND}` : `${BRAND} · עוגות מעוצבות וקינוחים בירושלים`;
+const desc = description ?? 'עוגות מעוצבות, קינוחים, שולחנות מתוקים ומגשי אירוח בירושלים. בהתאמה אישית, בהזמנה בוואטסאפ.';
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const shareImg = new URL(image ?? '/og-default.jpg', Astro.site).href;
+const waGeneral = waLink(S.waNumber, WA_GENERAL);
+const navView = view === 'cake' ? 'catalog' : view;
+const NAV = [
+  { href: '/', label: 'בית', key: 'home' },
+  { href: '/catalog/', label: 'קטלוג', key: 'catalog' },
+  { href: '/prices/', label: 'מחירון', key: 'prices' },
+  { href: '/about/', label: 'אודות', key: 'about' },
+  { href: '/contact/', label: 'צור קשר', key: 'contact' },
+];
+const umamiSrc = import.meta.env.PUBLIC_UMAMI_SRC;
+const umamiId = import.meta.env.PUBLIC_UMAMI_ID;
+---
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{fullTitle}</title>
+  <meta name="description" content={desc}>
+  <link rel="canonical" href={canonical}>
+  {noindex && <meta name="robots" content="noindex">}
+  <meta name="theme-color" content="#FDF8F3">
+  <link rel="icon" href="/logo/sara-icon.svg" type="image/svg+xml">
+  <link rel="icon" href="/logo/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/logo/sara-icon-512.png">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  <meta property="og:site_name" content={BRAND}>
+  <meta property="og:title" content={fullTitle}>
+  <meta property="og:description" content={desc}>
+  <meta property="og:url" content={canonical}>
+  <meta property="og:image" content={shareImg}>
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600&family=Bellefair&family=Cormorant+Garamond:wght@500;600&display=swap">
+  <link rel="sitemap" href="/sitemap-index.xml">
+  {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  {umamiSrc && umamiId && <script defer src={umamiSrc} data-website-id={umamiId}></script>}
+</head>
+<body data-view={view}>
+<a class="skip" href="#main">דלג לתוכן</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="petalFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F7C9CF"/><stop offset=".6" stop-color="#E792A2"/><stop offset="1" stop-color="#C9677D"/></linearGradient>
+    <symbol id="petal" viewBox="0 0 40 30"><path d="M2 22C6 6 24-2 38 6c-4 4-6 12-14 18S6 30 2 22z" fill="url(#petalFill)"/><path d="M4 21C12 15 22 10 36 7" stroke="#FBE3E6" stroke-width=".8" fill="none" opacity=".7"/></symbol>
+  </defs>
+</svg>
+
+<header class="site-head" id="head">
+  <div class="wrap head-row">
+    <a class="brand" href="/" aria-label="Sara Cakes & Sweets, לעמוד הבית">
+      <img class="icon" src="/logo/sara-icon.svg" alt="" width="52" height="52">
+      <img class="full" src="/logo/sara-logo-horizontal.svg" alt="" width="160" height="50">
+    </a>
+    <nav aria-label="ניווט ראשי">
+      <ul class="nav" id="nav" data-open="false">
+        {NAV.map((n) => <li><a href={n.href} aria-current={n.key === navView ? 'page' : undefined}>{n.label}</a></li>)}
+      </ul>
+    </nav>
+    <div class="head-end">
+      <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="nav" aria-label="תפריט">
+        <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <slot />
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><img class="foot-logo" src="/logo/sara-logo-stacked.svg" alt="Sara Cakes & Sweets" width="130" height="130" loading="lazy"></div>
+      <div>
+        <h2>יצירת קשר</h2>
+        <ul>
+          <li>טלפון: <span dir="ltr">{S.phone}</span></li>
+          <li><a href={waGeneral} target="_blank" rel="noopener" data-umami-event="whatsapp" data-umami-event-place="footer">וואטסאפ</a></li>
+          <li><a href={S.instagram} target="_blank" rel="noopener">אינסטגרם</a></li>
+          {S.facebook && <li><a href={S.facebook} target="_blank" rel="noopener">פייסבוק</a></li>}
+          <li>ירושלים והסביבה</li>
+        </ul>
+      </div>
+      <div>
+        <h2>באתר</h2>
+        <ul>
+          <li><a href="/catalog/">קטלוג</a></li>
+          <li><a href="/prices/">מחירון</a></li>
+          <li><a href="/about/">אודות</a></li>
+          <li><a href="/contact/">צור קשר</a></li>
+          <li><a href="/accessibility/">הצהרת נגישות</a></li>
+          <li><a href="/privacy/">מדיניות פרטיות</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom"><span>© <span lang="en">Sara Cakes &amp; Sweets</span></span><span>כל המוצרים בכשרות בד״ץ · חלבי ופרווה</span></div>
+  </div>
+</footer>
+
+<a class="fab" href={waGeneral} target="_blank" rel="noopener" aria-label="הזמנה בוואטסאפ" data-umami-event="whatsapp" data-umami-event-place="floating">
+  <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.6-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>
+</a>
+
+<script>
+  import { initShell } from '../scripts/shell';
+  initShell();
+</script>
+</body>
+</html>

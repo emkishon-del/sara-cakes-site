@@ -1,0 +1,17 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Catalog from '../../../components/Catalog.astro';
+import { getData, shownCategories, imgUrl, itemsIn } from '../../../lib/data';
+
+export async function getStaticPaths() {
+  const d = await getData();
+  return shownCategories(d).flatMap((c) => c.subs.map((s) => ({ params: { cat: c.slug, sub: s.slug }, props: { name: s.name, catName: c.name } })));
+}
+const { cat, sub } = Astro.params;
+const { name, catName } = Astro.props;
+const d = await getData();
+const first = itemsIn(d, cat, sub)[0];
+---
+<Base view="catalog" title={`${name} · ${catName}`} description={`${catName}: ${name}. בעבודת יד ובהתאמה אישית, בירושלים.`} image={first ? imgUrl(first.image) : undefined}>
+  <Catalog cat={cat} sub={sub} />
+</Base>

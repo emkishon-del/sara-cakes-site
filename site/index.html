@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sara Cakes &amp; Sweets</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Sara Cakes & Sweets – עוגות מעוצבות, קינוחים, שולחנות מתוקים ומגשי אירוח בירושלים. בהתאמה אישית, בהזמנה בוואטסאפ.">
+<link rel="icon" href="logo/sara-icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600&family=Bellefair&family=Cormorant+Garamond:wght@500;600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div lang="he" dir="rtl" id="app">
+<a class="skip" href="#main">דלג לתוכן</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="petalFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F7C9CF"/><stop offset=".6" stop-color="#E792A2"/><stop offset="1" stop-color="#C9677D"/></linearGradient>
+    <symbol id="petal" viewBox="0 0 40 30"><path d="M2 22C6 6 24-2 38 6c-4 4-6 12-14 18S6 30 2 22z" fill="url(#petalFill)"/><path d="M4 21C12 15 22 10 36 7" stroke="#FBE3E6" stroke-width=".8" fill="none" opacity=".7"/></symbol>
+  </defs>
+</svg>
+<header class="site-head" id="head">
+  <div class="proto" role="note">אב טיפוס לבדיקה · התוכן והתמונות עדיין לא סופיים</div>
+  <div class="wrap head-row">
+    <a class="brand" href="#home" aria-label="Sara Cakes & Sweets, לעמוד הבית">
+      <img class="icon" src="logo/sara-icon.svg" alt="">
+      <img class="full" src="logo/sara-logo-horizontal.svg" alt="">
+    </a>
+    <nav aria-label="ניווט ראשי">
+      <ul class="nav" id="nav" data-open="false">
+        <li><a href="#home" data-view-link="home">בית</a></li>
+        <li><a href="#catalog" data-view-link="catalog">קטלוג</a></li>
+        <li><a href="#prices" data-view-link="prices">מחירון</a></li>
+        <li><a href="#about" data-view-link="about">אודות</a></li>
+        <li><a href="#contact" data-view-link="contact">צור קשר</a></li>
+      </ul>
+    </nav>
+    <div class="head-end">
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav" aria-label="תפריט">
+        <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+<!-- ================= HOME ================= -->
+<section class="view" data-view="home" aria-labelledby="h-home">
+  <div class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="glow"></div>
+      <div class="floor"></div>
+      <svg class="petal p1" viewBox="0 0 40 30"><use href="#petal"/></svg>
+      <svg class="petal p2" viewBox="0 0 40 30"><use href="#petal"/></svg>
+      <svg class="petal p3" viewBox="0 0 40 30"><use href="#petal"/></svg>
+      <svg class="petal p4" viewBox="0 0 40 30"><use href="#petal"/></svg>
+      <svg class="petal p5" viewBox="0 0 40 30"><use href="#petal"/></svg>
+      <svg class="petal p6" viewBox="0 0 40 30"><use href="#petal"/></svg>
+    </div>
+    <div class="wrap hero-inner">
+      <img class="hero-logo" src="logo/sara-logo-stacked.svg" alt="Sara Cakes & Sweets">
+      <div class="stage">
+        <div class="hero-copy">
+          <h1 id="h-home">החלומות שלכם,<br>היצירה שלי</h1>
+          <p>עוגות מעוצבות, קינוחים מוקפדים ושולחנות מתוקים שהופכים כל חגיגה לבלתי נשכחת.</p>
+          <div class="hero-actions">
+            <a class="btn btn-solid btn-wa" data-wa="general" target="_blank" rel="noopener"><span class="dot" aria-hidden="true"></span>הזמנה בוואטסאפ</a>
+            <a class="btn btn-ghost" href="#catalog">לקטלוג</a>
+          </div>
+        </div>
+        <div class="arch-col">
+          <div class="arch"><img id="heroImg" src="img/cake-wedding-roses.webp" alt="עוגת חתונה בשלוש קומות עם ורדים" width="380" height="480"></div>
+          <div class="tray" id="thumbs" role="group" aria-label="החלפת התמונה הראשית"></div>
+        </div>
+        <div class="proof">
+          <div class="num">10+</div>
+          <div class="rule" aria-hidden="true"></div>
+          <div class="num-label">שנים של עוגות בעבודת יד</div>
+          <ul class="round-links" id="heroLinks"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="wrap">
+      <div class="band-head"><h2>מה אני מכינה</h2><p>כל דבר בהתאמה אישית, לכל אירוע</p></div>
+      <div class="cards" id="homeCards"></div>
+    </div>
+  </div>
+
+  <div class="band reviews-band" id="reviewsBand" hidden>
+    <div class="wrap">
+      <div class="band-head"><h2 id="h-reviews">מילים חמות מהלקוחות</h2><p>מתוך הודעות ששלחו לי בוואטסאפ אחרי האירוע</p></div>
+      <ul class="reviews" id="reviews" aria-labelledby="h-reviews"></ul>
+    </div>
+  </div>
+
+  <div class="band cta-band">
+    <div class="wrap">
+      <div><h2>מתכננים אירוע?</h2><p>כתבו לי בוואטסאפ עם התאריך ותמונת השראה, ואחזור אליכם בהקדם. מומלץ להזמין כשבוע מראש.</p></div>
+      <a class="btn btn-solid btn-wa" data-wa="general" target="_blank" rel="noopener"><span class="dot" aria-hidden="true"></span>כתבו לי בוואטסאפ</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CATALOG ================= -->
+<section class="view" data-view="catalog" aria-labelledby="h-cat" hidden>
+  <div class="page-head">
+    <div class="wrap">
+      <h1 id="h-cat">קטלוג</h1>
+      <p>כל העבודות כאן נעשו בהתאמה אישית. ראיתם משהו שאהבתם? לחצו על התמונה ושלחו לי אותה בוואטסאפ.</p>
+    </div>
+    <div class="cat-rail" id="chips" role="group" aria-label="בחירת קטגוריה"></div>
+    <div class="wrap">
+      <div class="subtabs" id="subchips" role="group" aria-label="בחירת סוג" hidden><span class="ink" id="subInk" aria-hidden="true"></span></div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="count" id="count" aria-live="polite"></p>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- ================= PRICES ================= -->
+<section class="view" data-view="prices" aria-labelledby="h-prices" hidden>
+  <div class="page-head"><div class="wrap center-head"><h1 id="h-prices">מחירון</h1><p>המחירים בשקלים. כל עוגה מעוצבת בהתאמה אישית, וכדי לקבל הצעה מדויקת לאירוע שלכם כתבו לי בוואטסאפ.</p></div></div>
+  <div class="wrap">
+    <div class="price-grid" id="priceGrid"></div>
+    <div class="price-cta">
+      <p>רוצים משהו שלא מופיע כאן? בשולחנות מתוקים, קינוחים, בופה וסדנאות המחיר משתנה לפי האירוע, אז כתבו לי בוואטסאפ ונתאים הצעה.</p>
+      <a class="btn btn-solid btn-wa" data-wa="prices" target="_blank" rel="noopener"><span class="dot" aria-hidden="true"></span>לקבלת הצעת מחיר</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="view" data-view="about" aria-labelledby="h-about" hidden>
+  <div class="page-head"><div class="wrap"><h1 id="h-about">נעים להכיר, אני שרה</h1></div></div>
+  <div class="wrap">
+    <div class="about">
+      <div class="about-photo"><img src="img/cup-lemon-meringue-hand-sm.webp" alt="כוס לימון מרנג ביד של שרה" width="420" height="525"></div>
+      <div class="about-text">
+        <p class="lead"><span lang="en">Sara Cakes &amp; Sweets</span> הוא בוטיק משפחתי לעוגות מעוצבות, קינוחים ושולחנות מתוקים בירושלים.</p>
+        <p>הכול התחיל כתחביב. אפיתי לחברים ולמשפחה, ולאט לאט התאהבתי במקצוע. היום, אחרי יותר מעשר שנים, אני מעצבת עוגות לרגעים הכי חשובים של משפחות בירושלים והסביבה, יחד עם הילדים שלי שעובדים לצידי.</p>
+        <p>כל עוגה נוצרת בעבודת יד ובהתאמה אישית, מהשיחה הראשונה ועד הרגע שבו היא מונחת על השולחן שלכם. העיצוב מתחיל מהסיפור שלכם: תמונת השראה, צבעי האירוע, או רק רעיון.</p>
+        <p>כל המוצרים בכשרות בד״ץ, חלבי או פרווה לפי בקשתכם, ואפשר לבקש הכשר ספציפי. אפשר להכין גם ללא גלוטן, ללא סוכר, טבעוני או ללא אגוזים.</p>
+        <p class="note">המטבח שלי אינו סביבה נקייה מגלוטן ומאגוזים. במקרה של אלרגיה חמורה, דברו איתי לפני ההזמנה.</p>
+        <div><a class="btn btn-solid btn-wa" data-wa="general" target="_blank" rel="noopener"><span class="dot" aria-hidden="true"></span>בואו נדבר על האירוע שלכם</a></div>
+      </div>
+    </div>
+    <div class="values">
+      <div class="value"><h3>עבודת יד מאהבה</h3><p>כל עוגה נעשית מתוך אהבה למקצוע, לא בפס ייצור.</p></div>
+      <div class="value"><h3>התאמה אישית</h3><p>אין עוגות מקטלוג סגור. כל עיצוב מתחיל מהאירוע שלכם.</p></div>
+      <div class="value"><h3>עסק משפחתי</h3><p>מדברים ישירות איתי, ומקבלים יחס אישי מההתחלה ועד הסוף.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="view" data-view="contact" aria-labelledby="h-contact" hidden>
+  <div class="page-head"><div class="wrap"><h1 id="h-contact">צור קשר</h1><p>הדרך הכי מהירה היא וואטסאפ. אפשר גם למלא את הטופס, והוא יפתח לכם הודעה מוכנה.</p></div></div>
+  <div class="wrap contact">
+    <div class="channels">
+      <div class="channel"><span class="k">וואטסאפ</span><a class="btn btn-solid btn-wa" data-wa="general" target="_blank" rel="noopener"><span class="dot" aria-hidden="true"></span>פתיחת צ׳אט</a></div>
+      <div class="channel"><span class="k">טלפון</span><span class="v" id="phoneText">052-447-7261</span><button class="small-btn" type="button" id="copyPhone">העתקת המספר</button></div>
+      <div class="channel"><span class="k">אינסטגרם</span><a class="small-btn" id="igLink" target="_blank" rel="noopener" lang="en">sara_cakes_and_sweets</a></div>
+      <ul class="facts">
+        <li>ירושלים, ומשלוחים מחוץ לעיר בתיאום (המחיר לפי מרחק)</li>
+        <li>איסוף עצמי בתיאום מראש</li>
+        <li>מומלץ להזמין כשבוע מראש; הזמנות בהתראה קצרה בהתאם לתפוסה</li>
+        <li>נחזור אליכם בהקדם</li>
+      </ul>
+    </div>
+
+    <form class="order" id="orderForm" novalidate>
+      <h2>בקשה להצעת מחיר</h2>
+      <div class="field" id="f-name"><label for="name">שם <span class="req">(חובה)</span></label><input id="name" name="name" autocomplete="name" required><span class="err" hidden>נא לכתוב שם</span></div>
+      <div class="two">
+        <div class="field" id="f-phone"><label for="phone">טלפון <span class="req">(חובה)</span></label><input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required><span class="err" hidden>נא לכתוב מספר טלפון תקין</span></div>
+        <div class="field" id="f-date"><label for="date">תאריך האירוע</label><input id="date" name="date" type="date"></div>
+      </div>
+      <div class="field" id="f-type"><label for="type">מה מעניין אתכם?</label><select id="type" name="type"></select></div>
+      <div class="field"><label for="details">ספרו לי על האירוע</label><textarea id="details" name="details" placeholder="מספר מוזמנים, צבעים, טעמים, כל מה שחשוב לכם"></textarea></div>
+      <button class="btn btn-solid btn-wa" type="submit"><span class="dot" aria-hidden="true"></span>שליחה בוואטסאפ</button>
+      <p class="hint">יש לכם תמונת השראה? צרפו אותה בצ׳אט שייפתח.</p>
+      <p class="hint" id="formStatus" role="status"></p>
+    </form>
+  </div>
+</section>
+
+<!-- ================= ACCESSIBILITY ================= -->
+<section class="view" data-view="accessibility" aria-labelledby="h-acc" hidden>
+  <div class="page-head"><div class="wrap"><h1 id="h-acc">הצהרת נגישות</h1><p>טיוטה. תעודכן אחרי בדיקת הנגישות שלפני ההשקה.</p></div></div>
+  <div class="wrap prose">
+    <p>חשוב לי שכל אחד ואחת יוכלו להשתמש באתר בקלות. האתר נבנה בהתאם לתקן הישראלי ת״י 5568 ברמה AA, המבוסס על הנחיות WCAG 2.0.</p>
+    <h2>מה נעשה באתר</h2>
+    <ul>
+      <li>ניווט מלא במקלדת, עם סימון בולט של המיקום וקישור "דלג לתוכן".</li>
+      <li>טקסט חלופי לתמונות, ומבנה כותרות תקין לקוראי מסך.</li>
+      <li>ניגודיות צבעים מספקת וטקסט שאפשר להגדיל עד 200%.</li>
+      <li>טופס עם תוויות גלויות והודעות שגיאה בטקסט.</li>
+      <li>ביטול אנימציות כשבמכשיר מוגדרת הפחתת תנועה.</li>
+    </ul>
+    <h2>נתקלתם בבעיה?</h2>
+    <p>אפשר לפנות אליי בטלפון <span dir="ltr">052-447-7261</span> או בוואטסאפ, ואטפל בפנייה בהקדם.</p>
+    <p>תאריך עדכון ההצהרה: ימולא לפני ההשקה.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div><img class="foot-logo" src="logo/sara-logo-stacked.svg" alt="Sara Cakes & Sweets"></div>
+      <div><h2>יצירת קשר</h2><ul><li>טלפון: <span dir="ltr">052-447-7261</span></li><li><a data-wa="general" target="_blank" rel="noopener">וואטסאפ</a></li><li><a id="igFoot" target="_blank" rel="noopener">אינסטגרם</a></li><li>ירושלים והסביבה</li></ul></div>
+      <div><h2>באתר</h2><ul><li><a href="#catalog">קטלוג</a></li><li><a href="#prices">מחירון</a></li><li><a href="#about">אודות</a></li><li><a href="#contact">צור קשר</a></li><li><a href="#accessibility">הצהרת נגישות</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© <span lang="en">Sara Cakes &amp; Sweets</span></span><span>כל המוצרים בכשרות בד״ץ · חלבי ופרווה</span></div>
+  </div>
+</footer>
+
+<a class="fab" data-wa="general" target="_blank" rel="noopener" aria-label="הזמנה בוואטסאפ">
+  <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.6-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>
+</a>
+
+<dialog class="lb" id="lb" aria-labelledby="lbTitle">
+  <button class="icon-btn lb-close" id="lbClose" aria-label="סגירה">✕</button>
+  <div class="lb-inner">
+    <div class="lb-img"><img id="lbImg" alt=""></div>
+    <div class="lb-side">
+      <span class="lb-num" id="lbNum"></span>
+      <h2 id="lbTitle"></h2>
+      <p id="lbCat"></p>
+      <a class="btn btn-solid btn-wa" id="lbWa" target="_blank" rel="noopener"><span class="dot" aria-hidden="true"></span>אני רוצה עוגה כזאת</a>
+      <p class="hint">ההודעה תכלול את מספר העבודה, כדי ששרה תדע על מה מדובר.</p>
+      <div class="lb-nav">
+        <button class="icon-btn" id="lbPrev" aria-label="העבודה הקודמת">→</button>
+        <button class="icon-btn" id="lbNext" aria-label="העבודה הבאה">←</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+</div>
+
+<script src="data/catalog.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>

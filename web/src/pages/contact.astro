@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+import { getData, shownCategories } from '../lib/data';
+import { waLink, WA_GENERAL } from '../lib/wa';
+const d = await getData();
+const S = d.settings;
+const wa = waLink(S.waNumber, WA_GENERAL);
+---
+<Base view="contact" title="צור קשר" description="הזמנת עוגה מעוצבת או שולחן מתוק בירושלים: וואטסאפ, טלפון או טופס קצר שפותח הודעה מוכנה.">
+  <div class="page-head"><div class="wrap"><h1>צור קשר</h1><p>הדרך הכי מהירה היא וואטסאפ. אפשר גם למלא את הטופס, והוא יפתח לכם הודעה מוכנה.</p></div></div>
+  <div class="wrap contact">
+    <div class="channels">
+      <div class="channel"><span class="k">וואטסאפ</span><a class="btn btn-solid btn-wa" href={wa} target="_blank" rel="noopener" data-umami-event="whatsapp" data-umami-event-place="contact"><span class="dot" aria-hidden="true"></span>פתיחת צ׳אט</a></div>
+      <div class="channel"><span class="k">טלפון</span><a class="v" id="phoneText" href={'tel:+' + S.waNumber} dir="ltr">{S.phone}</a><button class="small-btn" type="button" id="copyPhone" data-phone={S.phone}>העתקת המספר</button></div>
+      <div class="channel"><span class="k">אינסטגרם</span><a class="small-btn" href={S.instagram} target="_blank" rel="noopener" lang="en">sara_cakes_and_sweets</a></div>
+      <ul class="facts">
+        <li>ירושלים, ומשלוחים מחוץ לעיר בתיאום (המחיר לפי מרחק)</li>
+        <li>איסוף עצמי בתיאום מראש</li>
+        <li>מומלץ להזמין כשבוע מראש; הזמנות בהתראה קצרה בהתאם לתפוסה</li>
+        <li>נחזור אליכם בהקדם</li>
+      </ul>
+    </div>
+
+    <form class="order" id="orderForm" novalidate data-wa={S.waNumber} data-phone={S.phone}>
+      <h2>בקשה להצעת מחיר</h2>
+      <div class="field" id="f-name"><label for="name">שם <span class="req">(חובה)</span></label><input id="name" name="name" autocomplete="name" required><span class="err" id="err-name" hidden>נא לכתוב שם</span></div>
+      <div class="two">
+        <div class="field" id="f-phone"><label for="phone">טלפון <span class="req">(חובה)</span></label><input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required><span class="err" id="err-phone" hidden>נא לכתוב מספר טלפון תקין</span></div>
+        <div class="field" id="f-date"><label for="date">תאריך האירוע</label><input id="date" name="date" type="date"></div>
+      </div>
+      <div class="field" id="f-type"><label for="type">מה מעניין אתכם?</label>
+        <select id="type" name="type"><option value="">בחרו (לא חובה)</option>{shownCategories(d).map((c) => <option>{c.name}</option>)}</select>
+      </div>
+      <div class="field"><label for="details">ספרו לי על האירוע</label><textarea id="details" name="details" placeholder="מספר מוזמנים, צבעים, טעמים, כל מה שחשוב לכם"></textarea></div>
+      <button class="btn btn-solid btn-wa" type="submit"><span class="dot" aria-hidden="true"></span>שליחה בוואטסאפ</button>
+      <p class="hint">יש לכם תמונת השראה? צרפו אותה בצ׳אט שייפתח.</p>
+      <p class="hint" id="formStatus" role="status"></p>
+    </form>
+  </div>
+</Base>
+
+<script>
+  import { toast } from '../scripts/shell';
+  const $ = (s: string) => document.querySelector(s) as HTMLInputElement;
+  const form = document.getElementById('orderForm') as HTMLFormElement;
+  function setErr(id: string, bad: boolean) {
+    const f = document.getElementById('f-' + id)!, input = f.querySelector('input')!;
+    f.dataset.invalid = String(bad);
+    (document.getElementById('err-' + id) as HTMLElement).hidden = !bad;
+    input.setAttribute('aria-invalid', String(bad));
+    if (bad) input.setAttribute('aria-describedby', 'err-' + id); else input.removeAttribute('aria-describedby');
+  }
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = $('#name').value.trim(), phone = $('#phone').value.replace(/[^\d+]/g, '');
+    const badName = !name, badPhone = phone.length < 9;
+    setErr('name', badName); setErr('phone', badPhone);
+    if (badName || badPhone) { $('#formStatus').textContent = 'יש שדות שצריך לתקן.'; (badName ? $('#name') : $('#phone')).focus(); return; }
+    const lines = ['שלום שרה, הגעתי מהאתר.', 'שם: ' + name, 'טלפון: ' + $('#phone').value.trim()];
+    const date = $('#date').value, type = $('#type').value, details = $('#details').value.trim();
+    if (date) lines.push('תאריך האירוע: ' + date.split('-').reverse().join('/'));
+    if (type) lines.push('מעניין אותי: ' + type);
+    if (details) lines.push('פרטים: ' + details);
+    window.open('https://wa.me/' + form.dataset.wa + '?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
+    (window as any).umami?.track?.('whatsapp', { place: 'contact-form' });
+    $('#formStatus').textContent = 'פתחנו לכם את וואטסאפ עם ההודעה. אם הוא לא נפתח, אפשר לכתוב ישירות ל-' + form.dataset.phone + '.';
+  });
+  const copy = document.getElementById('copyPhone') as HTMLButtonElement;
+  copy.addEventListener('click', () => {
+    const select = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById('phoneText')!); const s = getSelection()!; s.removeAllRanges(); s.addRange(r); toast('המספר מסומן, אפשר להעתיק'); };
+    try { navigator.clipboard.writeText(copy.dataset.phone!).then(() => toast('המספר הועתק'), select); } catch { select(); }
+  });
+</script>

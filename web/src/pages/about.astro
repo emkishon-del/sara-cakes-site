@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import { getData } from '../lib/data';
+import { waLink, WA_GENERAL } from '../lib/wa';
+const d = await getData();
+const wa = waLink(d.settings.waNumber, WA_GENERAL);
+---
+<Base view="about" title="אודות" description="נעים להכיר, אני שרה. בוטיק משפחתי לעוגות מעוצבות, קינוחים ושולחנות מתוקים בירושלים, כבר יותר מעשר שנים.">
+  <div class="page-head"><div class="wrap"><h1>נעים להכיר, אני שרה</h1></div></div>
+  <div class="wrap">
+    <div class="about">
+      <div class="about-photo"><img src="/img/cup-lemon-meringue-hand-sm.webp" alt="כוס לימון מרנג ביד של שרה" width="420" height="525"></div>
+      <div class="about-text">
+        <p class="lead"><span lang="en">Sara Cakes &amp; Sweets</span> הוא בוטיק משפחתי לעוגות מעוצבות, קינוחים ושולחנות מתוקים בירושלים.</p>
+        <p>הכול התחיל כתחביב. אפיתי לחברים ולמשפחה, ולאט לאט התאהבתי במקצוע. היום, אחרי יותר מעשר שנים, אני מעצבת עוגות לרגעים הכי חשובים של משפחות בירושלים והסביבה, יחד עם הילדים שלי שעובדים לצידי.</p>
+        <p>כל עוגה נוצרת בעבודת יד ובהתאמה אישית, מהשיחה הראשונה ועד הרגע שבו היא מונחת על השולחן שלכם. העיצוב מתחיל מהסיפור שלכם: תמונת השראה, צבעי האירוע, או רק רעיון.</p>
+        <p>כל המוצרים בכשרות בד״ץ, חלבי או פרווה לפי בקשתכם, ואפשר לבקש הכשר ספציפי. אפשר להכין גם ללא גלוטן, ללא סוכר, טבעוני או ללא אגוזים.</p>
+        <p class="note">המטבח שלי אינו סביבה נקייה מגלוטן ומאגוזים. במקרה של אלרגיה חמורה, דברו איתי לפני ההזמנה.</p>
+        <div><a class="btn btn-solid btn-wa" href={wa} target="_blank" rel="noopener" data-umami-event="whatsapp" data-umami-event-place="about"><span class="dot" aria-hidden="true"></span>בואו נדבר על האירוע שלכם</a></div>
+      </div>
+    </div>
+    <div class="values">
+      <div class="value"><h2>עבודת יד מאהבה</h2><p>כל עוגה נעשית מתוך אהבה למקצוע, לא בפס ייצור.</p></div>
+      <div class="value"><h2>התאמה אישית</h2><p>אין עוגות מקטלוג סגור. כל עיצוב מתחיל מהאירוע שלכם.</p></div>
+      <div class="value"><h2>עסק משפחתי</h2><p>מדברים ישירות איתי, ומקבלים יחס אישי מההתחלה ועד הסוף.</p></div>
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import { getData } from '../lib/data';
+import { waLink, WA_PRICES } from '../lib/wa';
+const d = await getData();
+const wa = waLink(d.settings.waNumber, WA_PRICES);
+---
+<Base view="prices" title="מחירון" description="מחירון עוגות מעוצבות, עוגות מספרים וקאפקייקס של Sara Cakes & Sweets בירושלים.">
+  <div class="page-head"><div class="wrap center-head"><h1>מחירון</h1><p>המחירים בשקלים. כל עוגה מעוצבת בהתאמה אישית, וכדי לקבל הצעה מדויקת לאירוע שלכם כתבו לי בוואטסאפ.</p></div></div>
+  <div class="wrap">
+    <div class="price-grid">
+      {d.prices.sections.map((sec) => (
+        <section class="price-card">
+          <h2>{sec.title}</h2>
+          <ul>
+            {sec.rows.map((r) => (
+              <li><span class="pname">{r.name}</span><span class="lead" aria-hidden="true"></span><span class="pval"><b>{r.price}</b> ₪{r.unit && ' ' + r.unit}</span></li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+    <div class="price-cta">
+      <p>{d.prices.note}</p>
+      <a class="btn btn-solid btn-wa" href={wa} target="_blank" rel="noopener" data-umami-event="whatsapp" data-umami-event-place="prices"><span class="dot" aria-hidden="true"></span>לקבלת הצעת מחיר</a>
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,126 @@
+---
+import Base from '../layouts/Base.astro';
+import { getData, imgUrl, itemsIn } from '../lib/data';
+import { waLink, WA_GENERAL } from '../lib/wa';
+
+const d = await getData();
+const S = d.settings;
+const wa = waLink(S.waNumber, WA_GENERAL);
+const hero = S.hero.map((id) => d.items.find((i) => i.id === id)).filter(Boolean) as typeof d.items;
+const first = hero[0] ?? d.items[0];
+const heroLinks = S.heroLinks.filter((l) => itemsIn(d, l.cat).length > 0);
+/* "What I make": the four main categories, when they have work to show */
+const CARD_IMG: Record<string, string> = { cakes: 'cake-crown', desserts: 'tarts-meringue', 'sweet-tables': 'sweet-table-gold', catering: 'buffet' };
+const cards = ['cakes', 'desserts', 'sweet-tables', 'catering']
+  .map((slug) => d.categories.find((c) => c.slug === slug))
+  .filter((c) => c && itemsIn(d, c.slug).length > 0)
+  .map((c) => ({ ...c!, image: (d.items.some((i) => i.image === CARD_IMG[c!.slug]) ? CARD_IMG[c!.slug] : null) ?? c!.cover ?? itemsIn(d, c!.slug)[0].image }));
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'Bakery', name: 'Sara Cakes & Sweets',
+  url: Astro.site?.href, image: new URL('/og-default.jpg', Astro.site).href,
+  telephone: '+' + S.waNumber, areaServed: 'ירושלים', sameAs: [S.instagram, S.facebook].filter(Boolean),
+};
+---
+<Base view="home" jsonLd={jsonLd}>
+  <section class="hero" aria-labelledby="h-home">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="glow"></div>
+      <div class="floor"></div>
+      {[1, 2, 3, 4, 5, 6].map((n) => <svg class={`petal p${n}`} viewBox="0 0 40 30"><use href="#petal" /></svg>)}
+    </div>
+    <div class="wrap hero-inner">
+      <img class="hero-logo" src="/logo/sara-logo-stacked.svg" alt="Sara Cakes & Sweets" width="220" height="220">
+      <div class="stage">
+        <div class="hero-copy">
+          <h1 id="h-home">החלומות שלכם,<br>היצירה שלי</h1>
+          <p>עוגות מעוצבות, קינוחים מוקפדים ושולחנות מתוקים שהופכים כל חגיגה לבלתי נשכחת.</p>
+          <div class="hero-actions">
+            <a class="btn btn-solid btn-wa" href={wa} target="_blank" rel="noopener" data-umami-event="whatsapp" data-umami-event-place="hero"><span class="dot" aria-hidden="true"></span>הזמנה בוואטסאפ</a>
+            <a class="btn btn-ghost" href="/catalog/">לקטלוג</a>
+          </div>
+        </div>
+        <div class="arch-col">
+          <div class="arch"><img id="heroImg" src={imgUrl(first.image)} alt={first.alt} width="380" height="480" fetchpriority="high"></div>
+          {hero.length > 1 && (
+            <div class="tray" id="thumbs" role="group" aria-label="החלפת התמונה הראשית">
+              {hero.map((it, n) => (
+                <button type="button" aria-pressed={n === 0 ? 'true' : 'false'} aria-label={'הצגת ' + it.title} data-src={imgUrl(it.image)} data-alt={it.alt}>
+                  <img src={imgUrl(it.image, true)} alt="" width="68" height="68">
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        <div class="proof">
+          <div class="num">10+</div>
+          <div class="rule" aria-hidden="true"></div>
+          <div class="num-label">שנים של עוגות בעבודת יד</div>
+          <ul class="round-links">
+            {heroLinks.map((l) => (
+              <li><a href={`/catalog/${l.cat}/`} aria-label={l.title}><span class="ring"><img src={imgUrl(l.image, true)} alt="" width="104" height="104"></span><span class="lbl" aria-hidden="true">{l.title}</span></a></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="band">
+    <div class="wrap">
+      <div class="band-head"><h2>מה אני מכינה</h2><p>כל דבר בהתאמה אישית, לכל אירוע</p></div>
+      <div class="cards">
+        {cards.map((c) => (
+          <a class="card" href={`/catalog/${c.slug}/`}>
+            <img src={imgUrl(c.image, true)} alt="" loading="lazy" width="640" height="640">
+            <div class="card-body"><h3>{c.name}</h3><span>{c.blurb}</span></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  {d.reviews.length > 0 && (
+    <div class="band reviews-band">
+      <div class="wrap">
+        <div class="band-head"><h2 id="h-reviews">מילים חמות מהלקוחות</h2><p>מתוך הודעות ששלחו לי בוואטסאפ אחרי האירוע</p></div>
+        <ul class="reviews" aria-labelledby="h-reviews">
+          {d.reviews.map((r) => (
+            <li><figure class="review">
+              <svg class="q" viewBox="0 0 40 30" aria-hidden="true"><path d="M17 2C8 4 2 10 2 19c0 5 3 9 8 9s8-3 8-7-3-7-7-7c-1 0-2 0-2 .3C10 9 13 6 18 5zm21 0c-9 2-15 8-15 17 0 5 3 9 8 9s8-3 8-7-3-7-7-7c-1 0-2 0-2 .3C31 9 34 6 39 5z" fill="currentColor"/></svg>
+              <blockquote><p>{r.text}</p></blockquote>
+              {r.tag && <figcaption><span class="via" aria-hidden="true"></span>{r.tag}</figcaption>}
+            </figure></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  )}
+
+  <div class="band cta-band">
+    <div class="wrap">
+      <div><h2>מתכננים אירוע?</h2><p>כתבו לי בוואטסאפ עם התאריך ותמונת השראה, ואחזור אליכם בהקדם. מומלץ להזמין כשבוע מראש.</p></div>
+      <a class="btn btn-solid btn-wa" href={wa} target="_blank" rel="noopener" data-umami-event="whatsapp" data-umami-event-place="home-cta"><span class="dot" aria-hidden="true"></span>כתבו לי בוואטסאפ</a>
+    </div>
+  </div>
+</Base>
+
+<script>
+  /* Hero thumbnails: preload the new photo first, so the old one never flashes */
+  const heroImg = document.getElementById('heroImg') as HTMLImageElement | null;
+  const thumbs = document.getElementById('thumbs');
+  let token = 0;
+  thumbs?.querySelectorAll<HTMLButtonElement>('button').forEach((b) => {
+    b.addEventListener('click', () => {
+      if (!heroImg || b.getAttribute('aria-pressed') === 'true') return;
+      thumbs.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', 'false'));
+      b.setAttribute('aria-pressed', 'true');
+      heroImg.classList.add('fading');
+      const t = ++token, t0 = Date.now(), pre = new Image();
+      pre.onload = pre.onerror = () => {
+        if (t !== token) return;
+        setTimeout(() => { heroImg.src = pre.src; heroImg.alt = b.dataset.alt || ''; heroImg.classList.remove('fading'); }, Math.max(0, 200 - (Date.now() - t0)));
+      };
+      pre.src = b.dataset.src!;
+    });
+  });
+</script>

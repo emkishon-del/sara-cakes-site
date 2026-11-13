@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import { getData } from '../lib/data';
+const d = await getData();
+---
+<Base view="privacy" title="מדיניות פרטיות" description="איך אתר Sara Cakes & Sweets מתייחס למידע שלכם.">
+  <div class="page-head"><div class="wrap"><h1>מדיניות פרטיות</h1></div></div>
+  <div class="wrap prose">
+    <p>האתר לא אוסף פרטים אישיים ולא שומר אותם.</p>
+    <h2>הטופס בעמוד צור קשר</h2>
+    <p>הטופס לא נשלח לשום שרת. הוא רק מכין הודעה ופותח אותה אצלכם בוואטסאפ, ואתם מחליטים אם לשלוח אותה. מה שנשלח בוואטסאפ כפוף לתנאים של וואטסאפ.</p>
+    <h2>מדידת ביקורים</h2>
+    <p>כדי לדעת אילו עמודים ועבודות מעניינים, האתר סופר ביקורים ולחיצות על כפתורי הוואטסאפ, בלי עוגיות (cookies) ובלי מידע שמזהה אתכם.</p>
+    <h2>שאלות</h2>
+    <p>אפשר לפנות אליי בטלפון <span dir="ltr">{d.settings.phone}</span> או בוואטסאפ.</p>
+  </div>
+</Base>

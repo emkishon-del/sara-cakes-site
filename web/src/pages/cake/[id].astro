@@ -1,0 +1,70 @@
+---
+/* One page per work: /cake/42/. This is the link Sara sends to customers and that Google indexes. */
+import Base from '../../layouts/Base.astro';
+import { getData, imgUrl, itemsIn, catName } from '../../lib/data';
+import { waLink, waItemText } from '../../lib/wa';
+
+export async function getStaticPaths() {
+  const d = await getData();
+  return d.items.map((it) => ({ params: { id: String(it.id) } }));
+}
+const d = await getData();
+const it = d.items.find((i) => String(i.id) === Astro.params.id)!;
+const cat = d.categories.find((c) => c.slug === it.cat);
+const sub = cat?.subs.find((s) => s.slug === it.sub);
+const siblings = itemsIn(d, it.cat, it.sub ?? undefined);
+const pos = siblings.findIndex((s) => s.id === it.id);
+const prev = siblings[(pos - 1 + siblings.length) % siblings.length];
+const next = siblings[(pos + 1) % siblings.length];
+const more = siblings.filter((s) => s.id !== it.id).slice(0, 6);
+const wa = waLink(d.settings.waNumber, waItemText(it.title, it.id));
+const where = catName(d, it.cat, it.sub);
+const jsonLd = {
+  '@context': 'https://schema.org', '@type': 'ImageObject', name: it.title, contentUrl: new URL(imgUrl(it.image), Astro.site).href,
+  creator: { '@type': 'Organization', name: 'Sara Cakes & Sweets' },
+};
+---
+<Base view="cake" title={`${it.title} (#${it.id})`} description={`${it.title}, עבודה #${it.id} של Sara Cakes & Sweets בירושלים. ${it.caption || 'בהתאמה אישית, בהזמנה בוואטסאפ.'}`} image={imgUrl(it.image)} jsonLd={jsonLd}>
+  <div class="wrap">
+    <nav aria-label="מיקום באתר" style="padding-top: 22px">
+      <ol class="crumbs">
+        <li><a href="/catalog/">קטלוג</a></li>
+        {cat && <li><a href={`/catalog/${cat.slug}/`}>{cat.name}</a></li>}
+        {cat && sub && <li><a href={`/catalog/${cat.slug}/${sub.slug}/`}>{sub.name}</a></li>}
+        <li aria-current="page">#{it.id}</li>
+      </ol>
+    </nav>
+    <div class="cake">
+      <div class="cake-photo">
+        <img src={imgUrl(it.image)} srcset={`${imgUrl(it.image, true)} 640w, ${imgUrl(it.image)} 1400w`} sizes="(max-width: 860px) 100vw, 60vw" alt={it.alt} width="1400" height="1400" fetchpriority="high">
+      </div>
+      <div class="cake-side">
+        <span class="lb-num">עבודה #{it.id}</span>
+        <h1>{it.title}</h1>
+        <p>{where}</p>
+        {it.caption && <p>{it.caption}</p>}
+        <a class="btn btn-solid btn-wa" href={wa} target="_blank" rel="noopener" data-umami-event="whatsapp" data-umami-event-place="cake-page" data-umami-event-item={String(it.id)}><span class="dot" aria-hidden="true"></span>אני רוצה עוגה כזאת</a>
+        <p class="hint">ההודעה תכלול את מספר העבודה. כל עוגה מעוצבת מחדש בהתאמה אישית, אז אפשר לשנות צבעים, גודל וטעמים.</p>
+        {siblings.length > 1 && (
+          <div class="cake-nav">
+            <a class="small-btn" href={`/cake/${prev.id}/`} rel="prev">→ הקודמת</a>
+            <a class="small-btn" href={`/cake/${next.id}/`} rel="next">הבאה ←</a>
+          </div>
+        )}
+      </div>
+    </div>
+    {more.length > 0 && (
+      <section class="more" aria-labelledby="h-more">
+        <h2 id="h-more">עוד {sub ? sub.name : cat?.name}</h2>
+        <div class="grid">
+          {more.map((m) => (
+            <a class="tile" href={`/cake/${m.id}/`} aria-label={`${m.title}, עבודה מספר ${m.id}`}>
+              <img src={imgUrl(m.image, true)} alt="" loading="lazy" width="640" height="640">
+              <span class="cap"><span>{m.title}</span><b>#{m.id}</b></span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+</Base>
