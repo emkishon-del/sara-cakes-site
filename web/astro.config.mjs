@@ -4,7 +4,9 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: process.env.SITE_URL || 'https://saracakes.co.il',
+  // The site's own address, used in links for sharing (WhatsApp previews), the sitemap and Google.
+  // On Netlify, URL is the site's main address: the temporary xxx.netlify.app now, saracakes.co.il once the domain is connected.
+  site: process.env.SITE_URL || process.env.URL || 'https://saracakes.co.il',
   trailingSlash: 'always',
   build: { format: 'directory' },
   integrations: [

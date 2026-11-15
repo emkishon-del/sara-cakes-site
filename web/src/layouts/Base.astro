@@ -26,6 +26,9 @@ const BRAND = 'Sara Cakes & Sweets';
 const fullTitle = title ? `${title} · ${BRAND}` : `${BRAND} · עוגות מעוצבות וקינוחים בירושלים`;
 const desc = description ?? 'עוגות מעוצבות, קינוחים, שולחנות מתוקים ומגשי אירוח בירושלים. בהתאמה אישית, בהזמנה בוואטסאפ.';
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
+/* Before launch the site lives at a temporary xxx.netlify.app address: keep it out of Google
+   (the spec: until launch the site exists only at a temporary address for testing). */
+const prelaunch = /\.netlify\.app$/.test(Astro.site?.hostname ?? '');
 const shareImg = new URL(image ?? '/og-default.jpg', Astro.site).href;
 const waGeneral = waLink(S.waNumber, WA_GENERAL);
 const navView = view === 'cake' ? 'catalog' : view;
@@ -47,7 +50,7 @@ const umamiId = import.meta.env.PUBLIC_UMAMI_ID;
   <title>{fullTitle}</title>
   <meta name="description" content={desc}>
   <link rel="canonical" href={canonical}>
-  {noindex && <meta name="robots" content="noindex">}
+  {(noindex || prelaunch) && <meta name="robots" content="noindex">}
   <meta name="theme-color" content="#FDF8F3">
   <link rel="icon" href="/logo/sara-icon.svg" type="image/svg+xml">
   <link rel="icon" href="/logo/favicon-32.png" sizes="32x32" type="image/png">
