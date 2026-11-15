@@ -8,6 +8,10 @@ const S = d.settings;
 const wa = waLink(S.waNumber, WA_GENERAL);
 const hero = S.hero.map((id) => d.items.find((i) => i.id === id)).filter(Boolean) as typeof d.items;
 const first = hero[0] ?? d.items[0];
+/* The arch photo: the browser picks the small (640px) or large (1400px) file by the size it is shown at,
+   so phones don't download the big one just to show it 300px wide. */
+const heroSrcset = (stem: string) => `${imgUrl(stem, true)} 640w, ${imgUrl(stem)} 1400w`;
+const HERO_SIZES = '(max-width: 900px) min(76vw, 300px), 400px';
 const heroLinks = S.heroLinks.filter((l) => itemsIn(d, l.cat).length > 0);
 /* "What I make": the four main categories, when they have work to show */
 const CARD_IMG: Record<string, string> = { cakes: 'cake-crown', desserts: 'tarts-meringue', 'sweet-tables': 'sweet-table-gold', catering: 'buffet' };
@@ -40,11 +44,11 @@ const jsonLd = {
           </div>
         </div>
         <div class="arch-col">
-          <div class="arch"><img id="heroImg" src={imgUrl(first.image)} alt={first.alt} width="380" height="480" fetchpriority="high"></div>
+          <div class="arch"><img id="heroImg" src={imgUrl(first.image)} srcset={heroSrcset(first.image)} sizes={HERO_SIZES} alt={first.alt} width="380" height="480" fetchpriority="high"></div>
           {hero.length > 1 && (
             <div class="tray" id="thumbs" role="group" aria-label="החלפת התמונה הראשית">
               {hero.map((it, n) => (
-                <button type="button" aria-pressed={n === 0 ? 'true' : 'false'} aria-label={'הצגת ' + it.title} data-src={imgUrl(it.image)} data-alt={it.alt}>
+                <button type="button" aria-pressed={n === 0 ? 'true' : 'false'} aria-label={'הצגת ' + it.title} data-src={imgUrl(it.image)} data-srcset={heroSrcset(it.image)} data-alt={it.alt}>
                   <img src={imgUrl(it.image, true)} alt="" width="68" height="68">
                 </button>
               ))}
@@ -118,9 +122,14 @@ const jsonLd = {
       const t = ++token, t0 = Date.now(), pre = new Image();
       pre.onload = pre.onerror = () => {
         if (t !== token) return;
-        setTimeout(() => { heroImg.src = pre.src; heroImg.alt = b.dataset.alt || ''; heroImg.classList.remove('fading'); }, Math.max(0, 200 - (Date.now() - t0)));
+        setTimeout(() => {
+          // srcset first: with a srcset present the browser ignores src, so both must change
+          heroImg.srcset = b.dataset.srcset || ''; heroImg.src = b.dataset.src!;
+          heroImg.alt = b.dataset.alt || ''; heroImg.classList.remove('fading');
+        }, Math.max(0, 200 - (Date.now() - t0)));
       };
-      pre.src = b.dataset.src!;
+      // preload the same file the arch will pick, so the old photo never flashes
+      pre.sizes = heroImg.sizes; pre.srcset = b.dataset.srcset || ''; pre.src = b.dataset.src!;
     });
   });
 </script>

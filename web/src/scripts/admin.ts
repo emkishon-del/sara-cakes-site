@@ -1,6 +1,7 @@
 /* Admin page: works, home page, reviews, price list. Talks to Supabase directly;
    the database's access rules allow changes only for the emails in the admins table. */
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { zipSync, strToU8 } from 'fflate';
 
 type Sub = { category: string; slug: string; name: string; sort: number; visible: boolean };
 type Cat = { slug: string; name: string; blurb: string; cover: string | null; sort: number; visible: boolean };
@@ -53,6 +54,7 @@ export async function initAdmin() {
   db.auth.onAuthStateChange((event) => { if (event === 'PASSWORD_RECOVERY') showNewPassword(); });
   $('#logoutBtn').addEventListener('click', async () => { await db.auth.signOut(); location.reload(); });
   $('#publishBtn').addEventListener('click', publish);
+  $('#backupBtn').addEventListener('click', backup);
   const { data } = await db.auth.getSession();
   if (location.hash.includes('type=recovery')) return; // handled by PASSWORD_RECOVERY
   if (data.session) await enter(); else showLogin();
@@ -138,6 +140,48 @@ async function publish() {
   say('נשלח לפרסום. האתר יתעדכן בעוד דקה או שתיים.');
 }
 
+/* ---------- backup ----------
+   One ZIP file with everything: data.json (works, categories, types, reviews, price list, settings)
+   and every photo in both sizes under images/. Meant to be downloaded once a month and kept on the computer or in Drive. */
+async function backup() {
+  const b = $<HTMLButtonElement>('#backupBtn');
+  b.disabled = true; b.textContent = 'מכין גיבוי…';
+  try {
+    await loadAll(); // the latest data, not what this tab loaded earlier
+    const data = {
+      exported_at: new Date().toISOString(),
+      categories: S.cats, subcategories: S.subs, items: S.items, reviews: S.reviews,
+      price_sections: S.sections, price_rows: S.rows, settings: S.settings,
+    };
+    const files: Record<string, Uint8Array | [Uint8Array, { level: 0 }]> = { 'data.json': strToU8(JSON.stringify(data, null, 2)) };
+    const stems = new Set<string>([
+      ...S.items.map((i) => i.image),
+      ...S.cats.map((c) => c.cover).filter((x): x is string => !!x),
+      ...((S.settings.hero_links ?? []) as HeroLink[]).map((l) => l.image),
+    ]);
+    let missing = 0, n = 0;
+    for (const stem of stems) {
+      for (const small of [false, true]) {
+        const res = await fetch(img(stem, small), { cache: 'no-store' }).catch(() => null);
+        if (!res?.ok) { missing++; continue; }
+        files[`images/${stem}${small ? '-sm' : ''}.webp`] = [new Uint8Array(await res.arrayBuffer()), { level: 0 }]; // photos are already compressed
+      }
+      b.textContent = `מכין גיבוי… ${++n}/${stems.size}`;
+    }
+    const zip = zipSync(files);
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([zip], { type: 'application/zip' }));
+    a.download = `sara-cakes-backup-${new Date().toISOString().slice(0, 10)}.zip`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+    say(missing ? `הגיבוי ירד, אבל ${missing} קבצי תמונה לא נמצאו.` : 'הגיבוי ירד. שמרו את הקובץ במחשב או בדרייב.', missing > 0);
+  } catch (e) {
+    fail(e, 'הגיבוי נכשל');
+  } finally {
+    b.disabled = false; b.textContent = 'הורדת גיבוי';
+  }
+}
+
 /* ---------- layout ---------- */
 const TABS = [['items', 'עבודות'], ['home', 'עמוד הבית וקטגוריות'], ['reviews', 'ביקורות'], ['prices', 'מחירון']] as const;
 function render() {
@@ -160,6 +204,13 @@ function suggestTitle(cat: string, sub: string | null) {
   const s = subName(cat, sub);
   if (cat === 'cakes') return s ? `עוגת ${s}` : 'עוגה מעוצבת';
   return s || catName(cat);
+}
+
+/* Suggested image description for screen readers, built from the category, the type and the title
+   (as the spec asks), e.g. "עוגות מעוצבות, בר ובת מצווה: עוגת קומות ורודה". Sara can still change it. */
+function autoAlt(cat: string, sub: string | null, title: string) {
+  const where = catName(cat) + (sub ? ', ' + subName(cat, sub) : '');
+  return title.trim() ? `${where}: ${title.trim()}` : where;
 }
 
 /* ---------- works ---------- */
@@ -278,7 +329,7 @@ function editItem(it: Item) {
         <label class="a-field" style="flex:1"><span>סוג</span><select id="eSub">${subOptions(it.category, it.subcategory)}</select></label>
       </div>
       <label class="a-field"><span>תיאור קצר (לא חובה)</span><input id="eCap" value="${esc(it.caption)}"></label>
-      <label class="a-field"><span>תיאור התמונה לקוראי מסך</span><input id="eAlt" value="${esc(it.alt || it.title)}"><small>מה רואים בתמונה, במשפט אחד. בדרך כלל אותו דבר כמו הכותרת.</small></label>
+      <label class="a-field"><span>תיאור התמונה לקוראי מסך</span><input id="eAlt" value="${esc(it.alt || autoAlt(it.category, it.subcategory, it.title))}"><small>מה רואים בתמונה, במשפט אחד. בדרך כלל הקטגוריה והכותרת.</small></label>
       <div class="a-row a-spread">
         <div class="a-row"><button class="a-btn a-primary" value="save">שמירה</button><button class="a-btn" value="cancel" formnovalidate>ביטול</button></div>
         <button class="a-btn a-danger" type="button" id="eDel">מחיקה</button>
@@ -325,7 +376,7 @@ function addFiles(list: FileList | null) {
   for (const file of Array.from(list)) {
     if (!file.type.startsWith('image/') && !/\.(heic|heif)$/i.test(file.name)) continue;
     const t = suggestTitle(cat, null);
-    queue.push({ file, url: URL.createObjectURL(file), cat, sub: null, title: t, alt: t, altTouched: false, caption: '', state: 'ready' });
+    queue.push({ file, url: URL.createObjectURL(file), cat, sub: null, title: t, alt: autoAlt(cat, null, t), altTouched: false, caption: '', state: 'ready' });
   }
   renderQueue();
 }
@@ -366,7 +417,7 @@ function renderQueue() {
       retitle(q, card);
     } else if (f === 'sub') { q.sub = el.value || null; retitle(q, card); }
     else if (f === 'alt') { q.alt = el.value; q.altTouched = true; }
-    else if (f === 'title') { q.title = el.value; if (!q.altTouched) { q.alt = el.value; $<HTMLInputElement>('[data-f="alt"]', card).value = el.value; } }
+    else if (f === 'title') { q.title = el.value; syncAlt(q, card); }
     else (q as any)[f] = el.value;
   };
   box.onclick = (e) => {
@@ -381,8 +432,14 @@ function retitle(q: Q, card: HTMLElement) {
   if (!q.title || auto.has(q.title)) {
     q.title = suggestTitle(q.cat, q.sub);
     $<HTMLInputElement>('[data-f="title"]', card).value = q.title;
-    if (!q.altTouched) { q.alt = q.title; $<HTMLInputElement>('[data-f="alt"]', card).value = q.title; }
   }
+  syncAlt(q, card); // the category or type changed, so the suggested description changes too
+}
+/* Keep the suggested description up to date until Sara writes her own */
+function syncAlt(q: Q, card: HTMLElement) {
+  if (q.altTouched) return;
+  q.alt = autoAlt(q.cat, q.sub, q.title);
+  $<HTMLInputElement>('[data-f="alt"]', card).value = q.alt;
 }
 
 async function uploadAll() {
@@ -513,17 +570,22 @@ function renderHome() {
       cover: $<HTMLSelectElement>('[data-f="cover"]', row).value || null,
       visible: $<HTMLInputElement>('[data-f="visible"]', row).checked,
     };
-    const subRows = $$<HTMLElement>('[data-sub]', row);
+    // Each type keeps its old name if its field was left empty (like the category name above)
+    const subPatches = $$<HTMLElement>('[data-sub]', row).map((r) => {
+      const s = S.subs.find((x) => x.category === c.slug && x.slug === r.dataset.sub)!;
+      const input = $<HTMLInputElement>('[data-sf="name"]', r);
+      const name = input.value.trim() || s.name;
+      input.value = name;
+      return { s, name, visible: $<HTMLInputElement>('[data-sf="visible"]', r).checked };
+    });
     const res = await Promise.all([
       db.from('categories').update(patch).eq('slug', c.slug),
-      ...subRows.map((r) => db.from('subcategories').update({
-        name: $<HTMLInputElement>('[data-sf="name"]', r).value.trim(), visible: $<HTMLInputElement>('[data-sf="visible"]', r).checked,
-      }).eq('category', c.slug).eq('slug', r.dataset.sub!)),
+      ...subPatches.map((p) => db.from('subcategories').update({ name: p.name, visible: p.visible }).eq('category', c.slug).eq('slug', p.s.slug)),
     ]);
     const err = res.find((r) => r.error)?.error;
     if (err) return fail(err);
     Object.assign(c, patch);
-    subRows.forEach((r) => { const s = S.subs.find((x) => x.category === c.slug && x.slug === r.dataset.sub)!; s.name = $<HTMLInputElement>('[data-sf="name"]', r).value.trim(); s.visible = $<HTMLInputElement>('[data-sf="visible"]', r).checked; });
+    subPatches.forEach((p) => { p.s.name = p.name; p.s.visible = p.visible; });
     markPending(); say(`${patch.name} נשמרה`);
   };
 }

@@ -3,6 +3,7 @@
    Every category and sub-category has its own URL. With JavaScript, switching between them
    happens in place with the animated picker and the URL updates; without it, the links just load the page. */
 import { getData, imgUrl, itemsIn, shownCategories, catName } from '../lib/data';
+import { worksCount, scriptJson } from '../lib/text';
 
 interface Props { cat?: string; sub?: string }
 const { cat = '', sub = '' } = Astro.props;
@@ -10,7 +11,7 @@ const d = await getData();
 const cats = shownCategories(d);
 const current = cats.find((c) => c.slug === cat);
 const list = itemsIn(d, cat || undefined, sub || undefined);
-const countText = (n: number) => `${n} עבודות` + (current ? ' ב' + (sub ? current.subs.find((s) => s.slug === sub)?.name : current.name) : '');
+const countText = (n: number) => worksCount(n) + (current ? ' ב' + (sub ? current.subs.find((s) => s.slug === sub)?.name : current.name) : '');
 const urlFor = (c?: string, s?: string) => '/catalog/' + (c ? c + '/' : '') + (s ? s + '/' : '');
 
 /* Data for in-place switching and the enlarged view */
@@ -28,12 +29,12 @@ const payload = {
   <nav class="cat-rail" id="chips" aria-label="בחירת קטגוריה">
     <a class="cat" href={urlFor()} data-cat="" aria-current={!cat ? 'page' : undefined}>
       <span class="ring"><img class="logo-img" src="/logo/sara-icon.svg" alt="" width="78" height="78"></span>
-      <span class="name">הכול</span><span class="n">{d.items.length} עבודות</span>
+      <span class="name">הכול</span><span class="n">{worksCount(d.items.length)}</span>
     </a>
     {cats.map((c) => (
       <a class="cat" href={urlFor(c.slug)} data-cat={c.slug} aria-current={cat === c.slug && !sub ? 'page' : cat === c.slug ? 'true' : undefined}>
         <span class="ring"><img src={imgUrl(c.cover && d.items.some((i) => i.image === c.cover) ? c.cover : itemsIn(d, c.slug)[0].image, true)} alt="" width="78" height="78" loading="lazy"></span>
-        <span class="name">{c.name}</span><span class="n">{itemsIn(d, c.slug).length} עבודות</span>
+        <span class="name">{c.name}</span><span class="n">{worksCount(itemsIn(d, c.slug).length)}</span>
       </a>
     ))}
   </nav>
@@ -68,7 +69,7 @@ const payload = {
       <h2 id="lbTitle"></h2>
       <p id="lbCat"></p>
       <a class="btn btn-solid btn-wa" id="lbWa" target="_blank" rel="noopener" data-umami-event="whatsapp" data-umami-event-place="lightbox"><span class="dot" aria-hidden="true"></span>אני רוצה עוגה כזאת</a>
-      <p class="hint">ההודעה תכלול את מספר העבודה, כדי ששרה תדע על מה מדובר.</p>
+      <p class="hint">ההודעה תכלול את מספר העבודה, כדי שאדע על מה מדובר.</p>
       <a class="small-btn" id="lbPage" href="#">לעמוד של העבודה (לשיתוף)</a>
       <div class="lb-nav">
         <button class="icon-btn" id="lbPrev" type="button" aria-label="העבודה הקודמת">→</button>
@@ -78,7 +79,7 @@ const payload = {
   </div>
 </dialog>
 
-<script type="application/json" id="catalogData" set:html={JSON.stringify(payload)} />
+<script type="application/json" id="catalogData" set:html={scriptJson(payload)} />
 
 <script>
   import { initCatalog } from '../scripts/catalog';

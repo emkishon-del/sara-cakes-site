@@ -1,6 +1,11 @@
 ---
 /* Admin page for Sara and Mani: /admin/. Not linked from the site and not indexed.
    Everything here runs in the browser against Supabase; access rules in the database decide who may edit. */
+/* Fonts are served from the site itself, like the public pages */
+import '@fontsource/assistant/400.css';
+import '@fontsource/assistant/600.css';
+import '@fontsource/assistant/700.css';
+import '@fontsource/bellefair/400.css';
 const configured = !!(import.meta.env.PUBLIC_SUPABASE_URL && import.meta.env.PUBLIC_SUPABASE_ANON_KEY);
 ---
 <!doctype html>
@@ -11,9 +16,6 @@ const configured = !!(import.meta.env.PUBLIC_SUPABASE_URL && import.meta.env.PUB
   <meta name="robots" content="noindex, nofollow">
   <title>ניהול · Sara Cakes & Sweets</title>
   <link rel="icon" href="/logo/sara-icon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Bellefair&display=swap">
 </head>
 <body>
   <a class="skip" href="#app">דלג לתוכן</a>
@@ -23,6 +25,7 @@ const configured = !!(import.meta.env.PUBLIC_SUPABASE_URL && import.meta.env.PUB
       <span class="pending" id="pending" hidden>יש שינויים שעוד לא פורסמו</span>
       <button class="a-btn a-primary" id="publishBtn" type="button">פרסום השינויים לאתר</button>
       <a class="a-btn" href="/" target="_blank" rel="noopener">לאתר</a>
+      <button class="a-btn" id="backupBtn" type="button">הורדת גיבוי</button>
       <button class="a-btn a-quiet" id="logoutBtn" type="button">יציאה</button>
     </div>
   </header>
@@ -53,6 +56,8 @@ const configured = !!(import.meta.env.PUBLIC_SUPABASE_URL && import.meta.env.PUB
     --f-display: 'Bellefair', 'David', serif; --f-body: 'Assistant', Arial, sans-serif;
   }
   * { box-sizing: border-box; }
+  /* "hidden" always wins (otherwise display:flex on the header buttons showed them before login) */
+  [hidden] { display: none !important; }
   body { margin: 0; background: var(--cream); color: var(--ink-2); font: 400 17px/1.5 var(--f-body); }
   h1, h2, h3 { font-family: var(--f-display); font-weight: 400; color: var(--ink); margin: 0; }
   :focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }

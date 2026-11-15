@@ -45,14 +45,21 @@ a { color: inherit; }
 .skip { position: absolute; inset-inline-start: 12px; top: -60px; background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 8px; z-index: 50; text-decoration: none; }
 .skip:focus { top: 12px; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* "hidden" always wins, even over a class that sets display (e.g. the catalog sub-tabs bar) */
+[hidden] { display: none !important; }
+/* keep room for the scrollbar on every page, so short and long pages don't shift sideways */
+html { scrollbar-gutter: stable; }
 
 
 /* ---------- header ---------- */
 .site-head { position: fixed; top: 0; left: 0; right: 0; z-index: 20; padding-top: env(safe-area-inset-top, 0px); background: rgba(252, 243, 237, .92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); transition: background .3s, border-color .3s; }
 body[data-view="home"] .site-head:not(.scrolled) { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; border-bottom-color: transparent; }
-main { padding-top: var(--chrome, 112px); }
+/* --chrome is the header's real height (77px). The script keeps it exact, but the page must start
+   with the right value, otherwise every new page is drawn lower and then jumps up when the script runs. */
+:root { --chrome: calc(77px + env(safe-area-inset-top, 0px)); }
+main { padding-top: var(--chrome); }
 body[data-view="home"] main { padding-top: 0; }
-.head-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+.head-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; height: 76px; }
 .head-end { display: flex; align-items: center; min-width: 52px; justify-content: flex-end; }
 .brand { display: flex; align-items: center; text-decoration: none; }
 .brand img { height: 52px; width: auto; }
@@ -60,7 +67,7 @@ body[data-view="home"] main { padding-top: 0; }
 body:not([data-view="home"]) .brand .full { display: block; height: 50px; }
 body:not([data-view="home"]) .brand .icon { display: none; }
 .nav { display: flex; gap: clamp(18px, 3vw, 40px); list-style: none; margin: 0; padding: 0; }
-.nav a { text-decoration: none; color: var(--ink); font-size: var(--step-0); padding-block: 6px; border-bottom: 2px solid transparent; }
+.nav a { text-decoration: none; color: var(--ink); font-size: 1.1rem; padding-block: 6px; border-bottom: 2px solid transparent; }
 .nav a[aria-current="page"] { border-bottom-color: var(--gold); font-weight: 600; }
 .nav a:hover { border-bottom-color: var(--petal); }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 12px 26px; border-radius: 999px; font: 600 var(--step-0)/1.2 var(--f-body); text-decoration: none; border: 1.5px solid var(--ink); cursor: pointer; transition: transform .15s, background .15s; }
@@ -105,26 +112,28 @@ main { min-height: 60vh; display: block; }
 /* fades the hero's colors into the cream of the next band instead of a hard edge */
 .hero::after { content: ""; position: absolute; inset: auto 0 0 0; height: clamp(80px, 16vh, 170px); z-index: -1; pointer-events: none; background: linear-gradient(180deg, rgba(253, 248, 243, 0), var(--cream)); }
 .hero-bg .floor::before { content: ""; position: absolute; inset: 12% 0 auto 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .7) 30%, rgba(255, 255, 255, .7) 70%, transparent); }
-.petal { position: absolute; width: 34px; height: auto; rotate: var(--r, 0deg); filter: drop-shadow(0 6px 6px rgba(150, 60, 80, .18)); animation: float 11s ease-in-out infinite alternate; }
+/* The petals drift once, for up to 5 seconds, and then rest where they landed. Accessibility (IS 5568 / WCAG 2.2.2):
+   automatic motion longer than 5 seconds would need a pause button. Each petal has its own length so they don't move in step. */
+.petal { position: absolute; width: 34px; height: auto; rotate: var(--r, 0deg); filter: drop-shadow(0 6px 6px rgba(150, 60, 80, .18)); animation: float 5s ease-in-out 1 forwards; }
 .p1 { top: 22%; left: 31%; width: 30px; --r: -24deg; }
-.p2 { top: 58%; left: 64%; width: 44px; --r: 32deg; animation-delay: -4s; }
-.p3 { top: 70%; left: 6%; width: 74px; --r: 12deg; filter: blur(3px); animation-duration: 15s; }
-.p4 { top: 13%; left: 70%; width: 22px; --r: 70deg; filter: blur(1.2px); animation-delay: -7s; }
+.p2 { top: 58%; left: 64%; width: 44px; --r: 32deg; animation-duration: 3.6s; }
+.p3 { top: 70%; left: 6%; width: 74px; --r: 12deg; filter: blur(3px); animation-duration: 4.6s; }
+.p4 { top: 13%; left: 70%; width: 22px; --r: 70deg; filter: blur(1.2px); animation-duration: 4s; }
 .p5 { top: 86%; left: 41%; width: 40px; --r: -8deg; animation: none; }
-.p6 { top: 34%; left: 90%; width: 60px; --r: -40deg; filter: blur(4px); animation-duration: 17s; }
+.p6 { top: 34%; left: 90%; width: 60px; --r: -40deg; filter: blur(4px); animation-duration: 4.8s; }
 @keyframes float { to { transform: translate(10px, 24px); } }
 
-.hero-inner { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-top: calc(var(--chrome, 112px) + clamp(0px, 1vh, 12px)); padding-bottom: clamp(36px, 6vh, 64px); }
-.hero-logo { height: clamp(92px, 18.5vh, 220px); width: auto; margin: 0 auto clamp(10px, 2.2vh, 26px); filter: drop-shadow(0 4px 14px rgba(255, 255, 255, .8)); }
+.hero-inner { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-top: var(--chrome); padding-bottom: clamp(20px, 3.5vh, 44px); }
+.hero-logo { height: clamp(84px, 15vh, 190px); width: auto; margin: 0 auto clamp(10px, 2.2vh, 26px); filter: drop-shadow(0 4px 14px rgba(255, 255, 255, .8)); }
 .hero .wrap { max-width: 1440px; }
 .stage { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: clamp(24px, 3vw, 56px); }
 .hero-copy { display: grid; gap: clamp(10px, 2vh, 18px); justify-items: start; }
-.hero-copy h1 { font-size: clamp(2.1rem, 1.4rem + 1.4vw + 1.2vh, 3.2rem); }
+.hero-copy h1 { font-size: clamp(2rem, 1.3rem + 1.1vw + 1.1vh, 2.9rem); }
 .hero-copy p { max-width: 32ch; color: var(--ink-2); }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .arch-col { position: relative; display: grid; justify-items: center; padding-bottom: 34px; }
 .arch-col::after { content: ""; position: absolute; bottom: 6px; left: 12%; right: 12%; height: 30px; z-index: -1; background: radial-gradient(closest-side, rgba(110, 70, 45, .26), rgba(110, 70, 45, 0)); }
-.arch { height: clamp(260px, 50vh, 520px); aspect-ratio: 380 / 480; max-width: 100%; border-radius: 999px 999px 18px 18px; overflow: hidden; outline: 2px solid var(--gold); outline-offset: 10px; background: #FFF7F4; box-shadow: 0 30px 60px rgba(110, 70, 45, .18), 0 0 0 14px rgba(255, 255, 255, .35); }
+.arch { height: clamp(250px, 47vh, 500px); aspect-ratio: 380 / 480; max-width: 100%; border-radius: 999px 999px 18px 18px; overflow: hidden; outline: 2px solid var(--gold); outline-offset: 10px; background: #FFF7F4; box-shadow: 0 30px 60px rgba(110, 70, 45, .18), 0 0 0 14px rgba(255, 255, 255, .35); }
 .arch img { width: 100%; height: 100% !important; object-fit: cover; mix-blend-mode: multiply; transition: opacity .35s; }
 .arch img.fading { opacity: 0; }
 .tray { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; padding: 8px; border-radius: 22px; background: rgba(255, 255, 255, .38); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); border: 1px solid rgba(255, 255, 255, .65); box-shadow: 0 14px 30px rgba(140, 60, 80, .2); }
@@ -133,7 +142,7 @@ main { min-height: 60vh; display: block; }
 .tray button[aria-pressed="true"] { border-color: var(--gold); }
 .tray img { width: 100%; height: 100% !important; object-fit: cover; }
 .proof { justify-self: end; display: grid; justify-items: center; text-align: center; padding-inline: clamp(0px, 2vw, 40px); }
-.proof .num { font: 600 clamp(3.6rem, 2.6rem + 2.4vw + 1.4vh, 5.8rem)/.95 var(--f-latin); font-feature-settings: "lnum"; direction: ltr; color: var(--gold-text);
+.proof .num { font: 600 clamp(3.2rem, 2.3rem + 2vw + 1.2vh, 5rem)/.95 var(--f-latin); font-feature-settings: "lnum"; direction: ltr; color: var(--gold-text);
   background: linear-gradient(170deg, #E2C285 0%, #B8893F 45%, #8A6224 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 6px rgba(255, 255, 255, .9)); }
 .proof .rule { width: clamp(56px, 6vw, 84px); height: 1.5px; margin: clamp(8px, 1.6vh, 14px) 0; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
 .proof .num-label { font: 400 clamp(1.3rem, 1.05rem + .5vw, 1.6rem)/1.25 var(--f-display); color: var(--ink); max-width: 9.5em; text-wrap: balance; }
@@ -143,7 +152,7 @@ main { min-height: 60vh; display: block; }
 .round-links li:nth-child(2) { translate: -16% 0; }
 .round-links li:nth-child(3) { translate: 26% 0; }
 .round-links a { position: relative; display: grid; justify-items: center; text-decoration: none; color: var(--ink); border-radius: 50%; }
-.round-links .ring { display: block; width: clamp(64px, 9.5vh, 104px); aspect-ratio: 1; border-radius: 50%; padding: 4px; background: linear-gradient(150deg, #E9CD93, #B8893F 55%, #9C7232); box-shadow: 0 12px 26px rgba(120, 70, 50, .2), 0 0 0 6px rgba(255, 255, 255, .45); transition: transform .3s; }
+.round-links .ring { display: block; width: clamp(60px, 8.5vh, 94px); aspect-ratio: 1; border-radius: 50%; padding: 4px; background: linear-gradient(150deg, #E9CD93, #B8893F 55%, #9C7232); box-shadow: 0 12px 26px rgba(120, 70, 50, .2), 0 0 0 6px rgba(255, 255, 255, .45); transition: transform .3s; }
 .round-links img { display: block; width: 100%; height: 100% !important; border-radius: 50%; object-fit: cover; border: 3px solid #FFF9F5; }
 .round-links a:hover .ring, .round-links a:focus-visible .ring { transform: scale(1.06); }
 /* the name appears beside the circle on hover/focus on desktop, and under it on phones */
@@ -205,9 +214,9 @@ main { min-height: 60vh; display: block; }
 .cta-band p { margin-top: 6px; }
 
 /* ---------- catalog ---------- */
-.page-head { background: radial-gradient(90% 130% at 50% 0%, #FFFDFB 0%, #FAEFE8 50%, #F2E0D6 100%); padding-block: 40px 22px; position: relative; isolation: isolate; }
+.page-head { background: radial-gradient(90% 130% at 50% 0%, #FFFDFB 0%, #FAEFE8 50%, #F2E0D6 100%); padding-block: 26px 10px; position: relative; isolation: isolate; }
 .page-head::after { content: ""; position: absolute; inset: auto 0 0 0; height: 45%; max-height: 120px; z-index: -1; pointer-events: none; background: linear-gradient(180deg, rgba(253, 248, 243, 0), var(--cream)); }
-.page-head h1 { font-size: var(--step-3); }
+.page-head h1 { font-size: clamp(1.9rem, 1.5rem + 1.5vw, 2.5rem); }
 [data-view="catalog"] .page-head .wrap:first-child { text-align: center; }
 [data-view="catalog"] .page-head p { margin-inline: auto; }
 .page-head p { margin-top: 8px; max-width: 60ch; }
@@ -286,30 +295,87 @@ dialog.lb::backdrop { background: rgba(40, 26, 18, .72); }
 .value h2, .value h3 { font-size: var(--step-2); margin-bottom: 6px; }
 .note { font-size: var(--step--1); background: #FFF8EE; border: 1px solid #EBD9B9; border-radius: 12px; padding: 12px 16px; }
 @media (max-width: 860px) { .about { grid-template-columns: 1fr; } .values { grid-template-columns: 1fr; } }
+/* the allergen note is a health warning: on phones it gets the full 18px body size required by the spec */
+@media (max-width: 860px) { .note { font-size: var(--step-0); } }
+/* about on phones: the photo is centered, so the heading, the text, the button and the value cards are centered under it */
+@media (max-width: 860px) {
+  [data-view="about"] .page-head h1 { text-align: center; }
+  .about-text { text-align: center; justify-items: center; margin-inline: auto; }
+  .values .value { text-align: center; }
+}
 
 /* ---------- contact ---------- */
-.contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(28px, 5vw, 64px); padding-block: 24px 80px; align-items: start; }
-.channels { display: grid; gap: 14px; }
-.channel { background: var(--paper); border-radius: 14px; padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(28px, 5vw, 64px); padding-block: 16px 64px; align-items: start; }
+.channels { display: grid; gap: 12px; }
+.channel { background: var(--paper); border-radius: 14px; padding: 10px 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
 .channel .k { color: var(--ink); font-weight: 600; }
 .channel .v { direction: ltr; unicode-bidi: isolate; user-select: all; }
 .small-btn { min-height: 44px; padding: 8px 16px; border-radius: 999px; border: 1.5px solid var(--ink); background: transparent; color: var(--ink); font: 600 1rem var(--f-body); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
 .facts { display: grid; gap: 8px; margin-top: 8px; padding: 0; list-style: none; }
 .facts li { padding-inline-start: 22px; position: relative; }
 .facts li::before { content: ""; position: absolute; inset-inline-start: 4px; top: .7em; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
-form.order { background: var(--paper); border-radius: var(--radius); padding: clamp(20px, 3vw, 32px); display: grid; gap: 16px; box-shadow: 0 10px 30px rgba(120, 80, 40, .07); }
+form.order { background: var(--paper); border-radius: var(--radius); padding: clamp(18px, 2.4vw, 26px); display: grid; gap: 12px; box-shadow: 0 10px 30px rgba(120, 80, 40, .07); }
 form.order h2 { font-size: var(--step-2); }
 .field { display: grid; gap: 6px; }
 .field label { color: var(--ink); font-weight: 600; }
 .field .req { color: var(--gold-text); font-weight: 400; }
 .field input, .field select, .field textarea { font: 400 1.1rem var(--f-body); color: var(--ink); background: var(--cream); border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; min-height: 48px; width: 100%; }
-.field textarea { min-height: 110px; resize: vertical; }
+.field textarea { min-height: 84px; resize: vertical; }
 .field input:focus, .field select:focus, .field textarea:focus { outline: 3px solid var(--ink); outline-offset: 1px; border-color: var(--ink); }
 .field .err { color: #9B2C1F; font-size: .98rem; }
 .field[data-invalid="true"] input, .field[data-invalid="true"] select { border-color: #9B2C1F; }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .hint { font-size: var(--step--1); }
 @media (max-width: 860px) { .contact { grid-template-columns: 1fr; } .two { grid-template-columns: 1fr; } }
+/* Short computer screens (a 1366×768 laptop, or a laptop at 150% display scaling, ~550px tall): squeeze the contact page
+   so the whole form, including the send button, fits without scrolling. Normal screens and phones are unaffected. */
+@media (min-width: 861px) and (max-height: 800px) {
+  [data-view="contact"] .page-head { padding-block: 6px 0; }
+  [data-view="contact"] .page-head h1 { font-size: 1.7rem; }
+  [data-view="contact"] .page-head p { margin-top: 2px; font-size: 1.05rem; max-width: none; }
+  [data-view="contact"] .contact { padding-block: 8px 40px; font-size: 1.05rem; }
+  [data-view="contact"] .channels { gap: 8px; }
+  [data-view="contact"] .channel { padding: 6px 16px; }
+  [data-view="contact"] .channel .btn { min-height: 44px; padding-block: 8px; font-size: 1.05rem; }
+  [data-view="contact"] .facts { gap: 2px; margin-top: 2px; }
+  [data-view="contact"] form.order { padding: 14px 20px; gap: 8px; }
+  [data-view="contact"] form.order h2 { font-size: 1.35rem; }
+  [data-view="contact"] .field { gap: 2px; }
+  [data-view="contact"] .field input, [data-view="contact"] .field select, [data-view="contact"] .field textarea { min-height: 44px; padding: 8px 12px; font-size: 1.05rem; }
+  [data-view="contact"] .field textarea { min-height: 60px; }
+  [data-view="contact"] form.order .btn { min-height: 44px; padding-block: 8px; }
+  [data-view="contact"] form.order .hint { font-size: .95rem; }
+  [data-view="contact"] #formStatus:empty { display: none; } /* the status line takes room only once there is a message */
+}
+
+/* ---------- about and prices on computers: compact (requested by Mani) ----------
+   Text here is 16-18px instead of 20px, a smaller photo, and narrower price cards (still two per row).
+   Phones keep the original sizes. */
+@media (min-width: 861px) {
+  [data-view="about"] .page-head, [data-view="prices"] .page-head { padding-block: 14px 0; }
+  [data-view="prices"] .page-head h1 { font-size: 1.8rem; }
+  [data-view="prices"] .page-head p { font-size: 1rem; margin-top: 2px; }
+
+  .about { grid-template-columns: minmax(0, 250px) minmax(0, 1fr); gap: 36px; padding-block: 16px 30px; max-width: 1120px; margin-inline: auto; font-size: 1.1rem; }
+  .about-photo { max-width: 250px; }
+  .about-text { gap: 10px; max-width: none; }
+  .about-text .lead { font-size: 1.25rem; }
+  .about .btn { min-height: 44px; padding-block: 9px; font-size: 1.05rem; }
+  .values { gap: 14px; padding-block: 0 48px; max-width: 1120px; margin-inline: auto; }
+  .value { padding: 14px 18px; font-size: 1.05rem; }
+  .value h2 { font-size: 1.4rem; }
+
+  /* two columns, as in the spec, but narrower and denser cards */
+  .price-grid { gap: 10px; padding-block: 8px 10px; max-width: 780px; font-size: 1rem; }
+  .price-card { padding: 12px 18px 14px; border-top-width: 2px; }
+  .price-card h2 { font-size: 1.25rem; margin-bottom: 6px; }
+  .price-card ul { gap: 4px; }
+  .price-card .pval b { font-size: 1.15rem; }
+  .price-cta { max-width: 780px; padding: 10px 18px; margin-bottom: 48px; font-size: .95rem; flex-wrap: nowrap; }
+  .price-cta p { flex: 1; }
+  .price-cta .btn { flex: none; }
+  .price-cta .btn { min-height: 44px; padding-block: 8px; font-size: 1rem; }
+}
 
 /* ---------- prose (accessibility statement) ---------- */
 .prose { max-width: 70ch; padding-block: 24px 80px; display: grid; gap: 14px; }
@@ -354,3 +420,4 @@ a.tile { display: block; text-decoration: none; cursor: pointer; }
 /* ---------- 404 ---------- */
 .lost { text-align: center; padding-block: 72px 96px; display: grid; gap: 16px; justify-items: center; }
 .lost .big { font: 600 clamp(4rem, 3rem + 4vw, 7rem)/1 var(--f-latin); color: var(--gold); }
+.lost-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }

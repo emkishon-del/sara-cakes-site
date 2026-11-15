@@ -75,11 +75,17 @@ export function getData(): Promise<SiteData> {
   if (!cache) {
     cache = (usingSupabase ? fromSupabase() : Promise.resolve(seed as SiteData)).then((d) => {
       // Only what's meant to be public goes on the site.
-      const items = d.items.filter((i) => i.visible).sort(bySort);
       const categories = d.categories
         .filter((c) => c.visible)
         .sort(bySort)
         .map((c) => ({ ...c, subs: c.subs.filter((s) => s.visible).sort(bySort) }));
+      // A work is public only if it is shown itself AND its category (and its type, if it has one) are shown.
+      // Otherwise hiding a category in the admin page would leave its works under "all" and on their own pages.
+      const items = d.items.filter((i) => {
+        if (!i.visible) return false;
+        const c = categories.find((x) => x.slug === i.cat);
+        return !!c && (!i.sub || c.subs.some((s) => s.slug === i.sub));
+      }).sort(bySort);
       return {
         ...d,
         items,
