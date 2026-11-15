@@ -1,6 +1,7 @@
 /* Catalog: in-place switching between categories (with real URLs), animated grid swap, enlarged view. */
 import { reduceMotion } from './shell';
 import { waLink, waItemText } from '../lib/wa';
+import { worksCount } from '../lib/text';
 
 type It = { id: number; cat: string; sub: string | null; title: string; alt: string; s: string; l: string; where: string };
 type Cat = { slug: string; name: string; subs: { slug: string; name: string }[] };
@@ -77,7 +78,7 @@ export function initCatalog() {
       grid.classList.remove('leaving');
       const c = catBy[state.cat];
       const where = c ? ' ב' + (state.sub ? c.subs.find((s) => s.slug === state.sub)!.name : c.name) : '';
-      count.textContent = list.length + ' עבודות' + where;
+      count.textContent = worksCount(list.length) + where;
       document.title = (c ? (state.sub ? c.subs.find((s) => s.slug === state.sub)!.name + ' · ' : c.name + ' · ') : '') + 'קטלוג · Sara Cakes & Sweets';
     };
     clearTimeout(swapTimer);

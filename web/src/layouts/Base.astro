@@ -3,6 +3,7 @@
 import '../styles/global.css';
 import { getData } from '../lib/data';
 import { waLink, WA_GENERAL } from '../lib/wa';
+import { scriptJson } from '../lib/text';
 
 interface Props {
   title?: string;          // page part of the title, e.g. "קטלוג"
@@ -57,7 +58,7 @@ const umamiId = import.meta.env.PUBLIC_UMAMI_ID;
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600&family=Bellefair&family=Cormorant+Garamond:wght@500;600&display=swap">
   <link rel="sitemap" href="/sitemap-index.xml">
-  {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  {jsonLd && <script type="application/ld+json" set:html={scriptJson(jsonLd)} />}
   {umamiSrc && umamiId && <script defer src={umamiSrc} data-website-id={umamiId}></script>}
 </head>
 <body data-view={view}>

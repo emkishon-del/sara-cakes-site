@@ -513,17 +513,22 @@ function renderHome() {
       cover: $<HTMLSelectElement>('[data-f="cover"]', row).value || null,
       visible: $<HTMLInputElement>('[data-f="visible"]', row).checked,
     };
-    const subRows = $$<HTMLElement>('[data-sub]', row);
+    // Each type keeps its old name if its field was left empty (like the category name above)
+    const subPatches = $$<HTMLElement>('[data-sub]', row).map((r) => {
+      const s = S.subs.find((x) => x.category === c.slug && x.slug === r.dataset.sub)!;
+      const input = $<HTMLInputElement>('[data-sf="name"]', r);
+      const name = input.value.trim() || s.name;
+      input.value = name;
+      return { s, name, visible: $<HTMLInputElement>('[data-sf="visible"]', r).checked };
+    });
     const res = await Promise.all([
       db.from('categories').update(patch).eq('slug', c.slug),
-      ...subRows.map((r) => db.from('subcategories').update({
-        name: $<HTMLInputElement>('[data-sf="name"]', r).value.trim(), visible: $<HTMLInputElement>('[data-sf="visible"]', r).checked,
-      }).eq('category', c.slug).eq('slug', r.dataset.sub!)),
+      ...subPatches.map((p) => db.from('subcategories').update({ name: p.name, visible: p.visible }).eq('category', c.slug).eq('slug', p.s.slug)),
     ]);
     const err = res.find((r) => r.error)?.error;
     if (err) return fail(err);
     Object.assign(c, patch);
-    subRows.forEach((r) => { const s = S.subs.find((x) => x.category === c.slug && x.slug === r.dataset.sub)!; s.name = $<HTMLInputElement>('[data-sf="name"]', r).value.trim(); s.visible = $<HTMLInputElement>('[data-sf="visible"]', r).checked; });
+    subPatches.forEach((p) => { p.s.name = p.name; p.s.visible = p.visible; });
     markPending(); say(`${patch.name} נשמרה`);
   };
 }
