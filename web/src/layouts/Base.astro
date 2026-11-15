@@ -1,5 +1,11 @@
 ---
 /* Shared page shell: head (SEO, share preview), header, footer, floating WhatsApp button. */
+/* Fonts are served from the site itself (no request to Google, so no visitor data leaves the site) */
+import '@fontsource/assistant/400.css';
+import '@fontsource/assistant/600.css';
+import '@fontsource/bellefair/400.css';
+import '@fontsource/cormorant-garamond/500.css';
+import '@fontsource/cormorant-garamond/600.css';
 import '../styles/global.css';
 import { getData } from '../lib/data';
 import { waLink, WA_GENERAL } from '../lib/wa';
@@ -54,9 +60,6 @@ const umamiId = import.meta.env.PUBLIC_UMAMI_ID;
   <meta property="og:url" content={canonical}>
   <meta property="og:image" content={shareImg}>
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600&family=Bellefair&family=Cormorant+Garamond:wght@500;600&display=swap">
   <link rel="sitemap" href="/sitemap-index.xml">
   {jsonLd && <script type="application/ld+json" set:html={scriptJson(jsonLd)} />}
   {umamiSrc && umamiId && <script defer src={umamiSrc} data-website-id={umamiId}></script>}

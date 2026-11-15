@@ -1,11 +1,18 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getData } from '../lib/data';
+import { waLink, WA_GENERAL } from '../lib/wa';
+const d = await getData();
+const wa = waLink(d.settings.waNumber, WA_GENERAL);
 ---
 <Base view="lost" title="העמוד לא נמצא" noindex>
   <div class="wrap lost">
     <div class="big" lang="en">404</div>
     <h1>העמוד הזה לא נמצא</h1>
-    <p>אולי העבודה הוסרה מהקטלוג, או שהקישור לא מלא. אפשר להתחיל מהקטלוג.</p>
-    <a class="btn btn-solid" href="/catalog/">לקטלוג</a>
+    <p>אולי העבודה הוסרה מהקטלוג, או שהקישור לא מלא. אפשר להתחיל מהקטלוג, או לכתוב לי בוואטסאפ ולשאול.</p>
+    <div class="lost-actions">
+      <a class="btn btn-solid" href="/catalog/">לקטלוג</a>
+      <a class="btn btn-ghost btn-wa" href={wa} target="_blank" rel="noopener" data-umami-event="whatsapp" data-umami-event-place="404"><span class="dot" aria-hidden="true"></span>כתבו לי בוואטסאפ</a>
+    </div>
   </div>
 </Base>
