@@ -297,6 +297,12 @@ dialog.lb::backdrop { background: rgba(40, 26, 18, .72); }
 @media (max-width: 860px) { .about { grid-template-columns: 1fr; } .values { grid-template-columns: 1fr; } }
 /* the allergen note is a health warning: on phones it gets the full 18px body size required by the spec */
 @media (max-width: 860px) { .note { font-size: var(--step-0); } }
+/* about on phones: the photo is centered, so the heading, the text, the button and the value cards are centered under it */
+@media (max-width: 860px) {
+  [data-view="about"] .page-head h1 { text-align: center; }
+  .about-text { text-align: center; justify-items: center; margin-inline: auto; }
+  .values .value { text-align: center; }
+}
 
 /* ---------- contact ---------- */
 .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(28px, 5vw, 64px); padding-block: 16px 64px; align-items: start; }
